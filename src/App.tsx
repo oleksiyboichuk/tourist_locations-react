@@ -1,7 +1,11 @@
-import "./App.css";
+import Wrapper from "./components/wrapper";
 
 function App() {
-  return <></>;
+  return (
+    <Wrapper>
+      <div>Text</div>
+    </Wrapper>
+  );
 }
 
 export default App;
