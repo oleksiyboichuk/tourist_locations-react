@@ -1,3 +1,5 @@
+import { useState } from "react";
+import "./style.css";
 import {
   Description,
   Field,
@@ -7,8 +9,6 @@ import {
   Button,
 } from "@headlessui/react";
 import clsx from "clsx";
-import { useState } from "react";
-
 import { RiAiGenerate } from "react-icons/ri";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
@@ -40,10 +40,16 @@ const AddLocationForm = () => {
         />
       </Field>
       <Field>
-        <Button className="inline-flex items-center gap-2 rounded-md bg-zinc-800 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-zinc-700 data-[open]:bg-gray-700 data-[focus]:outline-1 data-[focus]:outline-white">
-          Відправити{" "}
+        <Button
+          className="inline-flex items-center gap-2 rounded-md bg-zinc-800 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-zinc-700 data-[open]:bg-gray-700 data-[focus]:outline-1 data-[focus]:outline-white"
+          onClick={() => setLoading(true)}
+        >
+          Генерувати
           {loading ? (
-            <AiOutlineLoading3Quarters color="white" />
+            <AiOutlineLoading3Quarters
+              color="white"
+              className="animate-custom-spin"
+            />
           ) : (
             <RiAiGenerate color="white" />
           )}
