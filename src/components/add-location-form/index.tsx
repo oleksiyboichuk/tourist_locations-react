@@ -15,11 +15,14 @@ import LocationInfo from "../location-info";
 import { generateTouristLocations } from "../../services/tourist-location.service";
 import { LocationModel } from "../../models/location.model";
 
+import { mockLocations } from "../../config/location.config";
+
 const AddLocationForm = () => {
   const [loading, setLoading] = useState(false);
   const [locations, setLocations] = useState<LocationModel[]>([]);
 
   const generateLocationsHandler = async (): Promise<void> => {
+    const params = [...mockLocations];
     setLoading(true);
     const newLocations = await generateTouristLocations(params);
     setLocations(newLocations);
