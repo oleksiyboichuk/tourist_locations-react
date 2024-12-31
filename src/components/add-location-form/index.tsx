@@ -12,7 +12,6 @@ import clsx from "clsx";
 import { RiAiGenerate } from "react-icons/ri";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import LocationInfo from "../location-info";
-import { generateTouristLocations } from "../../services/tourist-location.service";
 import { LocationModel } from "../../models/location.model";
 
 import { mockLocations } from "../../config/location.config";
@@ -23,7 +22,7 @@ const AddLocationForm = () => {
   const params = [...mockLocations];
 
   const generateLocationsHandler = async (): Promise<void> => {
-    // setLoading(true);
+    setLoading(true);
     // const newLocations = await generateTouristLocations(params);
     // setLocations(newLocations);
     // setLoading(false);
@@ -31,7 +30,7 @@ const AddLocationForm = () => {
 
   return (
     <>
-      <div className="w-full max-w-md px-4 my-10">
+      <div className="w-full max-w-md px-6 py-10 my-10 border-[1px] border-white/5 rounded-md">
         <Field className="mb-6">
           <Label className="text-sm/6 font-medium text-white">Ім'я міста</Label>
           <Input
@@ -88,7 +87,7 @@ const AddLocationForm = () => {
       </div>
       {locations && (
         <div>
-          <LocationInfo locationInfo={params} />
+          <LocationInfo locationInfo={locations} />
         </div>
       )}
     </>
