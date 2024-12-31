@@ -1,5 +1,15 @@
+export interface LocationModel {
+  CountryId: string;
+  CityId: string;
+  AddressMultiLanguage: string;
+  TitleMultiLanguage: string;
+  DescriptionMultiLanguage: string;
+  Location: string;
+  CategoryId: string;
+}
+
 export interface LocationPayloadModel {
-  cityName: string;
-  locationTranslation: string;
-  locationDescription: string;
+  CityName: string;
+  LocationTranslation: string;
+  LocationDescription: string;
 }
