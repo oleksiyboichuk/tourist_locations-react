@@ -20,8 +20,11 @@ const AddLocationForm = () => {
   const [locations, setLocations] = useState<LocationModel[]>([]);
 
   const generateLocationsHandler = async (): Promise<void> => {
+    setLoading(true);
     const newLocations = await generateTouristLocations(params);
     setLocations(newLocations);
+
+    setLoading(false);
   };
 
   return (
