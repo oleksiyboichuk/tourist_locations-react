@@ -7,8 +7,14 @@ import {
   Button,
 } from "@headlessui/react";
 import clsx from "clsx";
+import { useState } from "react";
+
+import { RiAiGenerate } from "react-icons/ri";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const AddLocationForm = () => {
+  const [loading, setLoading] = useState(false);
+
   return (
     <div className="w-full max-w-md px-4 my-10">
       <Field className="mb-4">
@@ -35,7 +41,12 @@ const AddLocationForm = () => {
       </Field>
       <Field>
         <Button className="inline-flex items-center gap-2 rounded-md bg-zinc-800 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-zinc-700 data-[open]:bg-gray-700 data-[focus]:outline-1 data-[focus]:outline-white">
-          Відправити
+          Відправити{" "}
+          {loading ? (
+            <AiOutlineLoading3Quarters color="white" />
+          ) : (
+            <RiAiGenerate color="white" />
+          )}
         </Button>
       </Field>
     </div>
