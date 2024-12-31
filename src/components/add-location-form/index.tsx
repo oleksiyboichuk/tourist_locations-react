@@ -30,7 +30,7 @@ const AddLocationForm = () => {
 
   return (
     <>
-      <div className="w-full max-w-md px-6 py-10 my-10 border-[1px] border-white/5 rounded-md">
+      <div className="w-full max-w-md px-6 py-10 my-10 border-[1px] border-white/5 rounded-xl">
         <Field className="mb-6">
           <Label className="text-sm/6 font-medium text-white">Ім'я міста</Label>
           <Input
