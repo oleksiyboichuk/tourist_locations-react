@@ -17,18 +17,32 @@ const AddLocationForm = () => {
 
   return (
     <div className="w-full max-w-md px-4 my-10">
-      <Field className="mb-4">
+      <Field className="mb-6">
         <Label className="text-sm/6 font-medium text-white">Ім'я міста</Label>
         <Input className={clsx("input-base", "input-focus")} />
       </Field>
-      <Field className="mb-4">
-        <Label className="text-sm/6 font-medium text-white">Prompt</Label>
-        <Description className="text-sm/6 text-white/50">
+      <Field className="mb-6">
+        <Label className="text-sm/6 font-medium text-white">
+          Опис адреси та назви міста
+        </Label>
+        <Description className="text-sm/6 text-white/30">
           Опишіть запит для генерації опису міста
         </Description>
         <Textarea
           className={clsx("textarea-base", "textarea-focus")}
-          rows={5}
+          rows={4}
+        />
+      </Field>
+      <Field className="mb-6">
+        <Label className="text-sm/6 font-medium text-white">
+          Повний опис міста
+        </Label>
+        <Description className="text-sm/6 text-white/30">
+          Опишіть запит для генерації опису міста
+        </Description>
+        <Textarea
+          className={clsx("textarea-base", "textarea-focus")}
+          rows={7}
         />
       </Field>
       <Field>
