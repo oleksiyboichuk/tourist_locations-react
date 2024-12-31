@@ -19,7 +19,10 @@ const AddLocationForm = () => {
     <div className="w-full max-w-md px-4 my-10">
       <Field className="mb-6">
         <Label className="text-sm/6 font-medium text-white">Ім'я міста</Label>
-        <Input className={clsx("input-base", "input-focus")} />
+        <Input
+          className={clsx("input-base", "input-focus")}
+          defaultValue="Івано-Франківськ"
+        />
       </Field>
       <Field className="mb-6">
         <Label className="text-sm/6 font-medium text-white">
