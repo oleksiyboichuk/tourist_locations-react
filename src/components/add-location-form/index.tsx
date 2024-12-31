@@ -7,10 +7,14 @@ import {
   Textarea,
   Label,
   Button,
+  Select,
 } from "@headlessui/react";
 import clsx from "clsx";
+
 import { RiAiGenerate } from "react-icons/ri";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { IoChevronDownOutline } from "react-icons/io5";
+
 import LocationInfo from "../location-info";
 import { LocationModel } from "../../models/location.model";
 
@@ -62,6 +66,33 @@ const AddLocationForm = () => {
             rows={7}
           />
         </Field>
+
+        <Field className="mb-6">
+          <Label className="text-sm/6 font-medium text-white">Версія GPT</Label>
+          <div className="relative">
+            <Select
+              className={clsx(
+                "mt-3 block w-full appearance-none rounded-lg border-none bg-white/5 py-1.5 px-3 text-sm/6 text-white",
+                "focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25",
+                "*:text-black"
+              )}
+            >
+              <option value="gpt-3.5-turbo">GPT 3.5 turbo</option>
+              <option value="gpt-4">GPT 4</option>
+              <option value="gpt-4o-mini">GPT 4o-mini</option>
+              <option value="gpt-4o">GPT 4o</option>
+            </Select>
+            {/* <ChevronDownIcon
+            className="group pointer-events-none absolute top-2.5 right-2.5 size-4 fill-white/60"
+            aria-hidden="true"
+          /> */}
+            <IoChevronDownOutline
+              className="group pointer-events-none absolute top-2.5 text-white right-2.5 size-4 fill-white/60"
+              aria-hidden="true"
+            />
+          </div>
+        </Field>
+
         <Field>
           <Button
             className={clsx(
@@ -87,7 +118,7 @@ const AddLocationForm = () => {
       </div>
       {locations && (
         <div>
-          <LocationInfo locationInfo={locations} />
+          <LocationInfo locationInfo={params} />
         </div>
       )}
     </>

@@ -6,7 +6,7 @@ interface LocationInfoProps {
 }
 
 const LocationInfo: FC<LocationInfoProps> = ({ locationInfo }) => {
-  return <>{locationInfo}</>;
+  return <></>;
 };
 
 export default LocationInfo;
