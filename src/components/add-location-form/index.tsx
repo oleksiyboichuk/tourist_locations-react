@@ -47,7 +47,7 @@ const AddLocationForm = () => {
             Опис адреси та назви міста
           </Label>
           <Description className="text-sm/6 text-white/30">
-            Опишіть запит для генерації опису міста
+            Опишіть запит для генерації адреси та назви міста
           </Description>
           <Textarea
             className={clsx("textarea-base", "textarea-focus")}
