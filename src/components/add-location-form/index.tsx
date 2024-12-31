@@ -82,10 +82,6 @@ const AddLocationForm = () => {
               <option value="gpt-4o-mini">GPT 4o-mini</option>
               <option value="gpt-4o">GPT 4o</option>
             </Select>
-            {/* <ChevronDownIcon
-            className="group pointer-events-none absolute top-2.5 right-2.5 size-4 fill-white/60"
-            aria-hidden="true"
-          /> */}
             <IoChevronDownOutline
               className="group pointer-events-none absolute top-2.5 text-white right-2.5 size-4 fill-white/60"
               aria-hidden="true"
