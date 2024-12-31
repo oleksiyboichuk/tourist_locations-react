@@ -20,14 +20,13 @@ import { mockLocations } from "../../config/location.config";
 const AddLocationForm = () => {
   const [loading, setLoading] = useState(false);
   const [locations, setLocations] = useState<LocationModel[]>([]);
+  const params = [...mockLocations];
 
   const generateLocationsHandler = async (): Promise<void> => {
-    const params = [...mockLocations];
-    setLoading(true);
-    const newLocations = await generateTouristLocations(params);
-    setLocations(newLocations);
-
-    setLoading(false);
+    // setLoading(true);
+    // const newLocations = await generateTouristLocations(params);
+    // setLocations(newLocations);
+    // setLoading(false);
   };
 
   return (
@@ -89,7 +88,7 @@ const AddLocationForm = () => {
       </div>
       {locations && (
         <div>
-          <LocationInfo locationInfo={locations} />
+          <LocationInfo locationInfo={params} />
         </div>
       )}
     </>
