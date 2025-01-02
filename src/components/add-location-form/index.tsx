@@ -27,9 +27,6 @@ const AddLocationForm = () => {
 
     const generateLocationsHandler = async (): Promise<void> => {
         setLoading(true);
-        // const newLocations = await generateTouristLocations(params);
-        // setLocations(newLocations);
-        // setLoading(false);
     };
 
     return (
@@ -39,32 +36,47 @@ const AddLocationForm = () => {
                     <Label className="text-sm/6 font-medium text-white">Ім'я міста</Label>
                     <Input
                         className={clsx("input-base", "input-focus")}
-                        defaultValue="Івано-Франківськ"
                     />
                 </Field>
                 <Field className="mb-6">
                     <Label className="text-sm/6 font-medium text-white">
-                        Опис адреси та назви міста
+                        Генерація малих текстів
                     </Label>
-                    <Description className="text-sm/6 text-white/30">
-                        Опишіть запит для генерації адреси та назви міста
-                    </Description>
-                    <Textarea
-                        className={clsx("textarea-base", "textarea-focus")}
-                        rows={4}
-                    />
+                    <div className="relative">
+                        <Select
+                            className={clsx(
+                                "mt-3 block w-full appearance-none rounded-lg border-none bg-white/5 py-1.5 px-3 text-sm/6 text-white",
+                                "focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25",
+                                "*:text-black"
+                            )}
+                        >
+                            <option value="name_and_address">Назва та адреса</option>
+                        </Select>
+                        <IoChevronDownOutline
+                            className="group pointer-events-none absolute top-2.5 text-white/30 right-2.5 size-4"
+                            aria-hidden="true"
+                        />
+                    </div>
                 </Field>
                 <Field className="mb-6">
                     <Label className="text-sm/6 font-medium text-white">
-                        Повний опис міста
+                        Генерація великих текстів
                     </Label>
-                    <Description className="text-sm/6 text-white/30">
-                        Опишіть запит для генерації опису міста
-                    </Description>
-                    <Textarea
-                        className={clsx("textarea-base", "textarea-focus")}
-                        rows={7}
-                    />
+                    <div className="relative">
+                        <Select
+                            className={clsx(
+                                "mt-3 block w-full appearance-none rounded-lg border-none bg-white/5 py-1.5 px-3 text-sm/6 text-white",
+                                "focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25",
+                                "*:text-black"
+                            )}
+                        >
+                            <option value="city_description">Опис міста</option>
+                        </Select>
+                        <IoChevronDownOutline
+                            className="group pointer-events-none absolute top-2.5 text-white/30 right-2.5 size-4"
+                            aria-hidden="true"
+                        />
+                    </div>
                 </Field>
 
                 <Field className="mb-6">
