@@ -113,15 +113,14 @@ const AddLocationForm = () => {
                     </Label>
                     <div className="relative">
                         <Select
-                            {...register("gptVersion", { required: true })}
+                            {...register("gptVersion", {required: true})}
                             className={clsx(
                                 "mt-3 block w-full appearance-none rounded-lg border-none bg-white/5 py-1.5 px-3 text-sm/6 text-white",
                                 errors.gptVersion && "border-red-500"
                             )}
                         >
-                            <option value="gpt-3.5-turbo">GPT 3.5-turbo</option>
-                            <option value="gpt-4">GPT 4</option>
                             <option value="gpt-4o-mini">GPT 4o-mini</option>
+                            <option value="gpt-4">GPT 4</option>
                             <option value="gpt-4o">GPT 4o</option>
                         </Select>
                         {errors.gptVersion && (
