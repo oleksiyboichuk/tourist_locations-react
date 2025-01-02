@@ -15,5 +15,8 @@ export interface LocationPayloadModel {
 }
 
 export interface LocationFormData {
-
+    cityName: string;
+    translationPrompt: string;
+    descriptionPrompt: string;
+    model: string;
 }
