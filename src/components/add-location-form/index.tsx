@@ -14,7 +14,7 @@ import {RiAiGenerate} from "react-icons/ri";
 import {AiOutlineLoading3Quarters} from "react-icons/ai";
 import {IoChevronDownOutline} from "react-icons/io5";
 
-import LocationInfo from "../location-info";
+// import LocationInfo from "../location-info";
 import {LocationModel} from "../../models/location.model";
 
 import {promptConfig} from "../../config/prompt.config.ts";
@@ -150,11 +150,11 @@ const AddLocationForm = () => {
                     </Button>
                 </Field>
             </form>
-            {locations && (
-                <div className="px-6 py-10 my-10">
-                    <LocationInfo locationInfo={locations} />
-                </div>
-            )}
+            {/*{locations && (*/}
+            {/*    <div className="px-6 py-10 my-10">*/}
+            {/*        <LocationInfo locationInfo={locations} />*/}
+            {/*    </div>*/}
+            {/*)}*/}
         </div>
     );
 };
