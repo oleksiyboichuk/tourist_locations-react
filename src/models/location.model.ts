@@ -9,12 +9,6 @@ export interface LocationModel {
 }
 
 export interface LocationPayloadModel {
-    CityName: string;
-    LocationTranslation: string;
-    LocationDescription: string;
-}
-
-export interface LocationFormData {
     cityName: string;
     translationPrompt: string;
     descriptionPrompt: string;

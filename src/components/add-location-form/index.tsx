@@ -20,6 +20,8 @@ import {LocationModel} from "../../models/location.model";
 import {mockLocations} from "../../config/location.config";
 import {promptConfig} from "../../config/prompt.config.ts";
 
+import {generateTouristLocations} from "../../services/tourist-location.service.ts";
+
 const AddLocationForm = () => {
     const [loading, setLoading] = useState(false);
     const [locations, setLocations] = useState<LocationModel[]>([]);
@@ -28,8 +30,12 @@ const AddLocationForm = () => {
 
     const params = [...mockLocations];
 
-    const onSubmit = (data: any) => {
-        console.log("Form Data:", data);
+    const onSubmit = async (data: any): Promise<void> => {
+        setLoading(true);
+
+        const newLocations: LocationModel[] = await generateTouristLocations(data);
+        setLocations(newLocations);
+        setLoading(false);
     };
 
     return (
