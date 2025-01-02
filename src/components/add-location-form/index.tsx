@@ -1,4 +1,5 @@
 import {useState} from "react";
+import {useForm} from "react-hook-form";
 import "./style.css";
 import {
     Field,
@@ -21,56 +22,60 @@ import {mockLocations} from "../../config/location.config";
 const AddLocationForm = () => {
     const [loading, setLoading] = useState(false);
     const [locations, setLocations] = useState<LocationModel[]>([]);
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm({
+        mode: "onSubmit",
+    });
+
     const params = [...mockLocations];
 
-    const generateLocationsHandler = async (): Promise<void> => {
-        setLoading(true);
+    const onSubmit = (data: any) => {
+        console.log("Form Data:", data);
     };
 
     return (
         <div className="flex">
-            <div className="w-full max-w-md px-6 py-10 my-10 border-[1px] border-white/10 rounded-xl">
+            <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="w-full max-w-md px-6 py-10 my-10 border-[1px] border-white/10 rounded-xl"
+            >
                 <Field className="mb-6">
-                    <Label className="text-sm/6 font-medium text-white">Ім'я міста</Label>
+                    <Label className="text-sm/6 font-medium text-white">
+                        Ім'я міста
+                    </Label>
                     <Input
-                        defaultValue="Чернівці"
-                        className={clsx("input-base", "input-focus")}
+                        {...register("cityName", { required: true })}
+                        className={clsx(
+                            "input-base input-focus",
+                            errors.cityName && "border-red-500"
+                        )}
                     />
+                    {errors.cityName && (
+                        <span className="text-red-500 text-xs">Це поле обов'язкове</span>
+                    )}
                 </Field>
+
                 <Field className="mb-6">
                     <Label className="text-sm/6 font-medium text-white">
                         Генерація малих текстів
                     </Label>
                     <div className="relative">
                         <Select
+                            {...register("smallTextGeneration", { required: true })}
                             className={clsx(
                                 "mt-3 block w-full appearance-none rounded-lg border-none bg-white/5 py-1.5 px-3 text-sm/6 text-white",
-                                "focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25",
-                                "*:text-black"
+                                errors.smallTextGeneration && "border-red-500"
                             )}
                         >
                             <option value="name_and_address">Назва та адреса міста</option>
                         </Select>
-                        <IoChevronDownOutline
-                            className="group pointer-events-none absolute top-2.5 text-white/30 right-2.5 size-4"
-                            aria-hidden="true"
-                        />
-                    </div>
-                </Field>
-                <Field className="mb-6">
-                    <Label className="text-sm/6 font-medium text-white">
-                        Генерація великих текстів
-                    </Label>
-                    <div className="relative">
-                        <Select
-                            className={clsx(
-                                "mt-3 block w-full appearance-none rounded-lg border-none bg-white/5 py-1.5 px-3 text-sm/6 text-white",
-                                "focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25",
-                                "*:text-black"
-                            )}
-                        >
-                            <option value="city_description">Опис міста</option>
-                        </Select>
+                        {errors.smallTextGeneration && (
+                            <span className="text-red-500 text-xs">Це поле обов'язкове</span>
+                        )}
                         <IoChevronDownOutline
                             className="group pointer-events-none absolute top-2.5 text-white/30 right-2.5 size-4"
                             aria-hidden="true"
@@ -79,13 +84,39 @@ const AddLocationForm = () => {
                 </Field>
 
                 <Field className="mb-6">
-                    <Label className="text-sm/6 font-medium text-white">Версія GPT</Label>
+                    <Label className="text-sm/6 font-medium text-white">
+                        Генерація великих текстів
+                    </Label>
                     <div className="relative">
                         <Select
+                            {...register("largeTextGeneration", { required: true })}
                             className={clsx(
                                 "mt-3 block w-full appearance-none rounded-lg border-none bg-white/5 py-1.5 px-3 text-sm/6 text-white",
-                                "focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25",
-                                "*:text-black"
+                                errors.largeTextGeneration && "border-red-500"
+                            )}
+                        >
+                            <option value="city_description">Опис міста</option>
+                        </Select>
+                        {errors.largeTextGeneration && (
+                            <span className="text-red-500 text-xs">Це поле обов'язкове</span>
+                        )}
+                        <IoChevronDownOutline
+                            className="group pointer-events-none absolute top-2.5 text-white/30 right-2.5 size-4"
+                            aria-hidden="true"
+                        />
+                    </div>
+                </Field>
+
+                <Field className="mb-6">
+                    <Label className="text-sm/6 font-medium text-white">
+                        Версія GPT
+                    </Label>
+                    <div className="relative">
+                        <Select
+                            {...register("gptVersion", { required: true })}
+                            className={clsx(
+                                "mt-3 block w-full appearance-none rounded-lg border-none bg-white/5 py-1.5 px-3 text-sm/6 text-white",
+                                errors.gptVersion && "border-red-500"
                             )}
                         >
                             <option value="gpt-3.5-turbo">GPT 3.5-turbo</option>
@@ -93,6 +124,9 @@ const AddLocationForm = () => {
                             <option value="gpt-4o-mini">GPT 4o-mini</option>
                             <option value="gpt-4o">GPT 4o</option>
                         </Select>
+                        {errors.gptVersion && (
+                            <span className="text-red-500 text-xs">Це поле обов'язкове</span>
+                        )}
                         <IoChevronDownOutline
                             className="group pointer-events-none absolute top-2.5 text-white/30 right-2.5 size-4"
                             aria-hidden="true"
@@ -102,14 +136,10 @@ const AddLocationForm = () => {
 
                 <Field>
                     <Button
+                        type="submit"
                         className={clsx(
-                            "button-base",
-                            "button-focus",
-                            "button-hover",
-                            "button-active",
-                            "button-disabled"
+                            "button-base button-focus button-hover button-active button-disabled"
                         )}
-                        onClick={generateLocationsHandler}
                     >
                         Генерувати
                         {loading ? (
@@ -118,14 +148,14 @@ const AddLocationForm = () => {
                                 className="animate-custom-spin"
                             />
                         ) : (
-                            <RiAiGenerate color="white"/>
+                            <RiAiGenerate color="white" />
                         )}
                     </Button>
                 </Field>
-            </div>
+            </form>
             {locations && (
                 <div className="px-6 py-10 my-10">
-                    <LocationInfo locationInfo={params}/>
+                    <LocationInfo locationInfo={params} />
                 </div>
             )}
         </div>
