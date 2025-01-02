@@ -17,7 +17,6 @@ import {IoChevronDownOutline} from "react-icons/io5";
 import LocationInfo from "../location-info";
 import {LocationModel} from "../../models/location.model";
 
-import {mockLocations} from "../../config/location.config";
 import {promptConfig} from "../../config/prompt.config.ts";
 
 import {generateTouristLocations} from "../../services/tourist-location.service.ts";
@@ -27,8 +26,6 @@ const AddLocationForm = () => {
     const [locations, setLocations] = useState<LocationModel[]>([]);
 
     const {register, handleSubmit, formState: { errors }} = useForm({mode: "onSubmit"});
-
-    const params = [...mockLocations];
 
     const onSubmit = async (data: any): Promise<void> => {
         setLoading(true);
@@ -155,7 +152,7 @@ const AddLocationForm = () => {
             </form>
             {locations && (
                 <div className="px-6 py-10 my-10">
-                    <LocationInfo locationInfo={params} />
+                    <LocationInfo locationInfo={locations} />
                 </div>
             )}
         </div>
