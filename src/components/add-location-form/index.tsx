@@ -18,6 +18,7 @@ import LocationInfo from "../location-info";
 import {LocationModel} from "../../models/location.model";
 
 import {mockLocations} from "../../config/location.config";
+import {promptConfig} from "../../config/prompt.config.ts";
 
 const AddLocationForm = () => {
     const [loading, setLoading] = useState(false);
@@ -65,7 +66,7 @@ const AddLocationForm = () => {
                                 errors.smallTextGeneration && "border-red-500"
                             )}
                         >
-                            <option value="name_and_address">Назва та адреса міста</option>
+                            <option value={`${promptConfig.translationValue}`}>Назва та адреса міста</option>
                         </Select>
                         {errors.smallTextGeneration && (
                             <span className="text-red-500 text-xs">Це поле обов'язкове</span>
@@ -89,7 +90,7 @@ const AddLocationForm = () => {
                                 errors.largeTextGeneration && "border-red-500"
                             )}
                         >
-                            <option value="city_description">Опис міста</option>
+                            <option value={`${promptConfig.descriptionValue}`}>Опис міста</option>
                         </Select>
                         {errors.largeTextGeneration && (
                             <span className="text-red-500 text-xs">Це поле обов'язкове</span>
