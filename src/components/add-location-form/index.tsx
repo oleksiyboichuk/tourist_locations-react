@@ -23,13 +23,7 @@ const AddLocationForm = () => {
     const [loading, setLoading] = useState(false);
     const [locations, setLocations] = useState<LocationModel[]>([]);
 
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm({
-        mode: "onSubmit",
-    });
+    const {register, handleSubmit, formState: { errors }} = useForm({mode: "onSubmit"});
 
     const params = [...mockLocations];
 

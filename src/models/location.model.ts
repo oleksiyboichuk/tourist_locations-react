@@ -13,3 +13,7 @@ export interface LocationPayloadModel {
     LocationTranslation: string;
     LocationDescription: string;
 }
+
+export interface LocationFormData {
+
+}
