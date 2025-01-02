@@ -65,7 +65,7 @@ const AddLocationForm = () => {
                     </Label>
                     <div className="relative">
                         <Select
-                            {...register("smallTextGeneration", { required: true })}
+                            {...register("translationPrompt", { required: true })}
                             className={clsx(
                                 "mt-3 block w-full appearance-none rounded-lg border-none bg-white/5 py-1.5 px-3 text-sm/6 text-white",
                                 errors.smallTextGeneration && "border-red-500"
@@ -89,7 +89,7 @@ const AddLocationForm = () => {
                     </Label>
                     <div className="relative">
                         <Select
-                            {...register("largeTextGeneration", { required: true })}
+                            {...register("descriptionPrompt", { required: true })}
                             className={clsx(
                                 "mt-3 block w-full appearance-none rounded-lg border-none bg-white/5 py-1.5 px-3 text-sm/6 text-white",
                                 errors.largeTextGeneration && "border-red-500"
@@ -113,7 +113,7 @@ const AddLocationForm = () => {
                     </Label>
                     <div className="relative">
                         <Select
-                            {...register("gptVersion", {required: true})}
+                            {...register("model", {required: true})}
                             className={clsx(
                                 "mt-3 block w-full appearance-none rounded-lg border-none bg-white/5 py-1.5 px-3 text-sm/6 text-white",
                                 errors.gptVersion && "border-red-500"
