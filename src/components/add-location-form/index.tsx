@@ -49,7 +49,7 @@ const AddLocationForm = () => {
                                 "*:text-black"
                             )}
                         >
-                            <option value="name_and_address">Назва та адреса</option>
+                            <option value="name_and_address">Назва та адреса міста</option>
                         </Select>
                         <IoChevronDownOutline
                             className="group pointer-events-none absolute top-2.5 text-white/30 right-2.5 size-4"
