@@ -1,5 +1,5 @@
 import axios from "axios";
-import {AddedCitiesModel, LocationModel, LocationPayloadModel} from "../models/location.model";
+import {CityListModel, LocationModel, LocationPayloadModel} from "../models/location.model";
 
 const baseURL = "http://localhost:3001";
 
@@ -13,8 +13,8 @@ export const generateTouristLocations = async (
         .then((response) => response.data);
 };
 
-export const getAddedCities = async (): Promise<AddedCitiesModel[]> => {
+export const getCityList = async (): Promise<CityListModel[]> => {
     return axios
-        .get<AddedCitiesModel[]>(`${baseURL}/api/location`, {})
+        .get<CityListModel[]>(`${baseURL}/api/location`, {})
         .then((response) => response.data);
 };

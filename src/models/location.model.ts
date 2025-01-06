@@ -15,7 +15,7 @@ export interface LocationPayloadModel {
     model: string;
 }
 
-export interface AddedCitiesModel {
+export interface CityListModel {
     CityId: string;
     CityName: string;
 }
