@@ -1,10 +1,14 @@
 import { Select } from '@headlessui/react'
-import {useEffect} from "react";
+import {FC, useEffect} from "react";
 
-const CitySelector = () => {
+interface CitySelectorProps {
+
+}
+
+const CitySelector:FC<CitySelectorProps> = () => {
 
     useEffect(() => {
-        
+
     }, []);
 
     return(

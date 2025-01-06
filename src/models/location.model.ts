@@ -14,3 +14,8 @@ export interface LocationPayloadModel {
     descriptionPrompt: string;
     model: string;
 }
+
+export interface AddedCitiesModel {
+    CityId: string;
+    CityName: string;
+}
