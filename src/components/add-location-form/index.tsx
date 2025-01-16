@@ -14,9 +14,7 @@ import {RiAiGenerate} from "react-icons/ri";
 import {AiOutlineLoading3Quarters} from "react-icons/ai";
 import {IoChevronDownOutline} from "react-icons/io5";
 
-// import LocationInfo from "../location-info";
 import {LocationModel} from "../../models/location.model";
-
 import {promptConfig} from "../../config/prompt.config.ts";
 
 import {generateTouristLocations} from "../../services/tourist-location.service.ts";

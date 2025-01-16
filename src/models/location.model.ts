@@ -21,6 +21,7 @@ export interface CityListModel {
 }
 
 export interface LocationResponseModel {
+    _id: string;
     CountryId: string;
     CityId: string;
     CityName: string;
@@ -28,6 +29,9 @@ export interface LocationResponseModel {
     AddressMultiLanguage: Record<string, string>;
     TitleMultiLanguage: Record<string, string>;
     DescriptionMultiLanguage: Record<string, string>;
-    Location: object;
+    Location: {
+        lng: string,
+        lat: string;
+    };
     Type: string[]
 }
