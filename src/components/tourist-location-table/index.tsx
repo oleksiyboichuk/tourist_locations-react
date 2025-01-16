@@ -54,7 +54,7 @@ const TouristLocationTable = ({ city }: { city: string }) => {
                                 <div
                                     className="inline-block p-3 cursor-pointer rounded transition-all hover:text-rose-500 group">
                                     <RiDeleteBin6Line
-                                        className="text-xl text-rose-700 transition-colors group-hover:text-rose-500"/>
+                                        className="text-xl text-rose-800 transition-colors group-hover:text-rose-500"/>
                                 </div>
                             </td>
 
