@@ -13,9 +13,9 @@ export const generateTouristLocations = async (
         .then((response) => response.data);
 };
 
-export const getLocationList = (): Promise<LocationResponseModel[] | null> => {
+export const getLocationList = async(city: string): Promise<LocationResponseModel[] | null> => {
     return axios
-        .get<LocationResponseModel[]>(`${baseURL}/api/location`, {})
+        .get<LocationResponseModel[]>(`${baseURL}/api/location?cityName=${city}`, {})
         .then((response) => response.data);
 }
 
