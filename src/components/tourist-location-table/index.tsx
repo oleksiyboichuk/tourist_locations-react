@@ -36,7 +36,7 @@ const TouristLocationTable = ({ city }: { city: string }) => {
                     </tr>
                     </thead>
                     <tbody className="bg-transparent text-white">
-                    {locations && locations.map((location) => (
+                    {locations && locations.map((location: LocationResponseModel) => (
                         <tr key={location._id} className="border border-gray-700">
                             <td className="px-4 py-2 border border-gray-700">{location.TitleMultiLanguage['uk']}</td>
                             <td className="px-4 py-2 border border-gray-700">{location.AddressMultiLanguage['uk']}</td>
@@ -44,11 +44,20 @@ const TouristLocationTable = ({ city }: { city: string }) => {
                                 {`Lat: ${location.Location.lat}, Lng: ${location.Location.lng}`}
                             </td>
                             <td className="px-4 py-2 border border-gray-700 text-center">
-                                <FaRegEdit className="inline-block text-xl text-blue-500 cursor-pointer" />
+                                <div
+                                    className="inline-block p-3 cursor-pointer rounded transition-all hover:text-neutral-700 group">
+                                    <FaRegEdit
+                                        className="text-xl text-neutral-500 transition-colors group-hover:text-neutral-400"/>
+                                </div>
                             </td>
                             <td className="px-4 py-2 border border-gray-700 text-center">
-                                <RiDeleteBin6Line className="inline-block text-xl text-red-500 cursor-pointer" />
+                                <div
+                                    className="inline-block p-3 cursor-pointer rounded transition-all hover:text-rose-500 group">
+                                    <RiDeleteBin6Line
+                                        className="text-xl text-rose-700 transition-colors group-hover:text-rose-500"/>
+                                </div>
                             </td>
+
                         </tr>
                     ))}
                     </tbody>
