@@ -8,6 +8,8 @@ import DeleteConfirmModal from "../modals/delete-confirm";
 
 const TouristLocationTable = ({ city }: { city: string }) => {
     const [locations, setLocations] = useState<LocationResponseModel[] | null>(null);
+    const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+    const [deleteTarget, setDeleteTarget] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -22,6 +24,23 @@ const TouristLocationTable = ({ city }: { city: string }) => {
 
         fetchData();
     }, [city]);
+
+    const handleDeleteClick = (id: string) => {
+        console.log("Модалка відкривається для ID:", id);
+        setDeleteTarget(id);
+        setDeleteModalOpen(true);
+    };
+
+    const handleDeleteConfirm = (confirmed: boolean) => {
+        setDeleteModalOpen(confirmed);
+        if (confirmed && deleteTarget) {
+            console.log(`Видалення елемента з ID: ${deleteTarget}`);
+            setDeleteModalOpen(false);
+        } else {
+            console.log("Видалення скасовано");
+            setDeleteModalOpen(false);
+        }
+    };
 
     return (
         <div className="my-10">
@@ -53,18 +72,25 @@ const TouristLocationTable = ({ city }: { city: string }) => {
                             </td>
                             <td className="px-4 py-2 border border-gray-700 text-center">
                                 <div
-                                    className="inline-block p-3 cursor-pointer rounded transition-all hover:text-rose-500 group">
+                                    className="inline-block p-3 cursor-pointer rounded transition-all hover:text-rose-500 group"
+                                    onClick={() => handleDeleteClick(location._id)}
+                                >
                                     <RiDeleteBin6Line
-                                        className="text-xl text-rose-800 transition-colors group-hover:text-rose-500"/>
+                                        className="text-xl text-rose-800 transition-colors group-hover:text-rose-500"
+                                    />
                                 </div>
                             </td>
-
                         </tr>
                     ))}
                     </tbody>
                 </table>
             </div>
-            <DeleteConfirmModal message="Ви впевнені що хочете видалити дане поле?"/>
+            {deleteModalOpen && (
+                <DeleteConfirmModal
+                    onClose={handleDeleteConfirm}
+                    message="Ви впевнені, що хочете видалити дане поле?"
+                />
+            )}
         </div>
     );
 };
