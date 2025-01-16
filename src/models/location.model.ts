@@ -19,3 +19,15 @@ export interface CityListModel {
     CityId: string;
     CityName: string;
 }
+
+export interface LocationResponseModel {
+    CountryId: string;
+    CityId: string;
+    CityName: string;
+    CategoryId: string;
+    AddressMultiLanguage: Record<string, string>;
+    TitleMultiLanguage: Record<string, string>;
+    DescriptionMultiLanguage: Record<string, string>;
+    Location: object;
+    Type: string[]
+}
