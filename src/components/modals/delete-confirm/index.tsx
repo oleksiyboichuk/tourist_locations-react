@@ -1,30 +1,31 @@
-import {Button, Field} from "@headlessui/react";
-import clsx from "clsx";
+import { Button } from "@headlessui/react";
 
-const DeleteConfirmModal = ({text}: {text: string}) => {
-   return (
-       <div className="absolute bg-neutral-900 py-5 px-7">
-            <p>{text}</p>
-            <div className="flex justify-between items-center">
-               <Field>
-                  <Button
-                      className={clsx(
-                          "button-base button-focus button-hover button-active button-disabled"
-                      )}
-                  >
-                     Так
-                  </Button>
-                  <Button
-                      className={clsx(
-                          "button-base button-focus button-hover button-active button-disabled"
-                      )}
-                  >
-                     Закрити
-                  </Button>
-               </Field>
+const DeleteConfirmModal = ({ message, onClose }: { message: string, onClose: () => void }) => {
+    return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+            <div
+                className="absolute inset-0 bg-black/50"
+                onClick={onClose}
+            ></div>
+
+            <div className="relative bg-neutral-900 py-5 px-7 border-[1px] border-white/5 rounded shadow-lg z-10">
+                <p className="mb-4 text-white">{message}</p>
+                <div className="flex justify-end items-center gap-3">
+                    <Button
+                        className="bg-green-800 text-white px-3 py-1 rounded transition-colors hover:bg-green-700/90"
+                    >
+                        Так
+                    </Button>
+                    <Button
+                        onClick={onClose}
+                        className="bg-rose-700 text-white px-4 py-1 rounded transition-colors hover:bg-rose-600/90"
+                    >
+                        Закрити
+                    </Button>
+                </div>
             </div>
-       </div>
-   )
+        </div>
+    );
 };
 
 export default DeleteConfirmModal;

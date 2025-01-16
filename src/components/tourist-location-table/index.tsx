@@ -4,6 +4,7 @@ import { getLocationList } from "../../services/tourist-location.service.ts";
 
 import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import DeleteConfirmModal from "../modals/delete-confirm";
 
 const TouristLocationTable = ({ city }: { city: string }) => {
     const [locations, setLocations] = useState<LocationResponseModel[] | null>(null);
@@ -63,6 +64,7 @@ const TouristLocationTable = ({ city }: { city: string }) => {
                     </tbody>
                 </table>
             </div>
+            <DeleteConfirmModal message="Ви впевнені що хочете видалити дане поле?"/>
         </div>
     );
 };
