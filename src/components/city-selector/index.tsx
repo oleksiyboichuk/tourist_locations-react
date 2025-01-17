@@ -2,6 +2,7 @@ import { Select } from '@headlessui/react';
 import React, { FC, useEffect, useState } from "react";
 import { getCityList } from "../../services/tourist-location.service.ts";
 import { CityListModel } from "../../models/location.model.ts";
+import clsx from "clsx";
 
 interface CitySelectorProps {
     onCitySelect: (selectedCity: string) => void;

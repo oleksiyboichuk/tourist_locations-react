@@ -13,7 +13,7 @@ const UpdateLocationModal = ({
     onClose: (confirmed: boolean) => void;
 }) => {
     const [location, setLocation] = useState<LocationResponseModel | null>(null);
-    const { control, handleSubmit, setValue } = useForm();
+    const { control, handleSubmit, setValue, getValues } = useForm();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -29,6 +29,14 @@ const UpdateLocationModal = ({
                     setValue("Location.lat", locationData.Location.lat);
                     setValue("Location.lng", locationData.Location.lng);
                     setValue("Type", locationData.Type);
+
+                    ["AddressMultiLanguage", "TitleMultiLanguage", "DescriptionMultiLanguage"].forEach(
+                        (fieldKey) => {
+                            Object.keys(locationData[fieldKey]).forEach((lang) => {
+                                setValue(`${fieldKey}.${lang}`, locationData[fieldKey][lang]);
+                            });
+                        }
+                    );
                 }
             } catch (error) {
                 console.error("Error fetching data:", error);
@@ -39,7 +47,19 @@ const UpdateLocationModal = ({
     }, [id, setValue]);
 
     const onSubmit = (data: any) => {
-        console.log("Updated Data:", data);
+        const formattedData = {
+            ...location,
+            ...data,
+            Location: {
+                lat: data["Location.lat"],
+                lng: data["Location.lng"],
+            },
+        };
+
+        delete formattedData["Location.lat"];
+        delete formattedData["Location.lng"];
+
+        console.log("Updated Data:", formattedData);
         onClose(true);
     };
 
@@ -62,7 +82,11 @@ const UpdateLocationModal = ({
                             name="CityName"
                             control={control}
                             render={({ field }) => (
-                                <input disabled={true} {...field} className="w-full p-2 rounded bg-neutral-800 text-white/40" />
+                                <input
+                                    disabled={true}
+                                    {...field}
+                                    className="w-full p-2 rounded bg-neutral-800 text-white/40"
+                                />
                             )}
                         />
                     </div>
