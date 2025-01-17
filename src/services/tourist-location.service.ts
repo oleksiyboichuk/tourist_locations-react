@@ -6,7 +6,7 @@ const baseURL = "http://localhost:3001/api";
 
 export const searchLocations = async(city: string, query: string, next?: string): Promise<GoogleLocationsResponseModel | null> => {
     return axios
-        .get<GoogleLocationsResponseModel | null>(`${baseURL}/location/search?cityName=${city}&query=${query}&next=${next}`, {})
+        .get<GoogleLocationsResponseModel | null>(`${baseURL}/location/search?cityName=${city}&query=${query}&next=${next ? next : ''}`, {})
         .then((response) => response.data);
 }
 

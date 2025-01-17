@@ -1,15 +1,31 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { GoogleLocationsModel, GoogleLocationsResponseModel } from "../../models/google-location.model";
 import { Button, Field } from "@headlessui/react";
 import clsx from "clsx";
 import {searchLocations} from "../../services/tourist-location.service.ts";
 
-const TouristLocationTable = ({ locations, city, query }: { locations: GoogleLocationsResponseModel, city: string, query: string }) => {
-    const touristLocations: GoogleLocationsModel[] = locations.results;
-    const [data, setData] = useState<GoogleLocationsModel[]| null>(locations.results);
+const TouristLocationTable = ({ city, query }: {city: string, query: string }) => {
+    const [locations, setLocations] = useState<GoogleLocationsModel[]| null>(null);
+    const [nextPage, setNextPage] = useState<string | null>(null);
+
+    useEffect(() => {
+        const fetchLocations = async() => {
+            try {
+                const locations: GoogleLocationsResponseModel | null = await searchLocations(city, query);
+                if(locations && locations.next_page_token && locations.results) {
+                    setLocations(locations.results);
+                    setNextPage(locations?.next_page_token)
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        fetchLocations()
+    }, [city, query]);
 
     const [selectedLocations, setSelectedLocations] = useState<Set<string>>(
-        new Set(touristLocations.map(location => location.place_id))
+        new Set(locations && locations.map(location => location.place_id))
     );
 
     const handleCheckboxChange = (placeId: string) => {
@@ -25,8 +41,9 @@ const TouristLocationTable = ({ locations, city, query }: { locations: GoogleLoc
     };
 
     const handleNextClick = async () => {
-        const selectedData = touristLocations.filter(location => selectedLocations.has(location.place_id));
-        const nextLocations = await searchLocations(city, query, locations.next_page_token)
+        const selectedData = locations && locations.filter(location => selectedLocations.has(location.place_id));
+        const nextLocations: any = city && query && nextPage && await searchLocations(city, query, nextPage);
+        setLocations(nextLocations.results)
         console.log("Selected Locations:", selectedData);
     };
 
@@ -44,7 +61,7 @@ const TouristLocationTable = ({ locations, city, query }: { locations: GoogleLoc
                 </tr>
                 </thead>
                 <tbody>
-                {touristLocations.map((location: GoogleLocationsModel) => (
+                {locations && locations.map((location: GoogleLocationsModel) => (
                     <tr key={location.place_id} className="bg-transparent">
                         <td className="border border-gray-600 p-2 text-center">
                             <label className="relative inline-flex items-center">
