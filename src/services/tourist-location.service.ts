@@ -1,12 +1,12 @@
 import axios from "axios";
 import {CityListModel, LocationModel, LocationPayloadModel, LocationResponseModel} from "../models/location.model";
-import {GoogleLocationsModel} from "../models/google-location.model.ts";
+import {GoogleLocationsModel, GoogleLocationsResponseModel} from "../models/google-location.model.ts";
 
 const baseURL = "http://localhost:3001/api";
 
-export const searchLocations = async(city: string, query: string): Promise<GoogleLocationsModel[] | null> => {
+export const searchLocations = async(city: string, query: string): Promise<GoogleLocationsResponseModel | null> => {
     return axios
-        .get<GoogleLocationsModel[] | null>(`${baseURL}/location/search?cityName=${city}&query=${query}`, {})
+        .get<GoogleLocationsResponseModel | null>(`${baseURL}/location/search?cityName=${city}&query=${query}`, {})
         .then((response) => response.data);
 }
 

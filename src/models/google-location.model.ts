@@ -1,3 +1,8 @@
+export interface GoogleLocationsResponseModel {
+    next_page_token: string;
+    results: GoogleLocationsModel[]
+}
+
 export interface GoogleLocationsModel {
     business_status: string;
     formatted_address: string;

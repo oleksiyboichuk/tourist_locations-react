@@ -28,8 +28,8 @@ const AddLocationForm = () => {
     const onSubmit = async (data: any): Promise<void> => {
         setLoading(true);
         console.log('data', data);
-        const findLocations = await searchLocations(data.cityName);
-        console.log(findLocations);
+        // const findLocations = await searchLocations(data.cityName);
+        // console.log(findLocations);
         // const newLocations: LocationModel[] = await generateTouristLocations(data);
         // setLocations(newLocations);
         setLoading(false);
