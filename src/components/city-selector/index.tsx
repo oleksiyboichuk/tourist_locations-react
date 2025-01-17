@@ -8,7 +8,7 @@ interface CitySelectorProps {
 }
 
 const CitySelector: FC<CitySelectorProps> = ({ onCitySelect }) => {
-    const [cities, setCities] = useState<CityListModel[]>([]);
+    const [cities, setCities] = useState<CityListModel[] | null>([]);
     const [selectedCity, setSelectedCity] = useState<string>("");
 
     useEffect(() => {

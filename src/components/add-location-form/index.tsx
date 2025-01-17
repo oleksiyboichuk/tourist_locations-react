@@ -148,11 +148,6 @@ const AddLocationForm = () => {
                     </Button>
                 </Field>
             </form>
-            {/*{locations && (*/}
-            {/*    <div className="px-6 py-10 my-10">*/}
-            {/*        <LocationInfo locationInfo={locations} />*/}
-            {/*    </div>*/}
-            {/*)}*/}
         </div>
     );
 };
