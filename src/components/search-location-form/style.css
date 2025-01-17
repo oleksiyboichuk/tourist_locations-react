@@ -1,0 +1,51 @@
+/* input styles */
+.input-base {
+    @apply mt-3 block w-full rounded-lg border-none bg-white/5 py-1.5 px-3 text-sm/6 text-white;
+}
+
+.input-focus {
+    @apply focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25;
+}
+
+/* textarea styles */
+.textarea-base {
+    @apply mt-3 block w-full resize-none rounded-lg border-none bg-white/5 py-1.5 px-3 text-sm/6 text-white;
+}
+
+.textarea-focus {
+    @apply focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25;
+}
+
+/* button styles */
+.button-base {
+    @apply inline-flex items-center gap-2 rounded-md bg-zinc-800 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10;
+}
+
+.button-focus {
+    @apply focus:outline-none data-[focus]:outline-1 data-[focus]:outline-white;
+}
+
+.button-hover {
+    @apply data-[hover]:bg-zinc-700;
+}
+
+.button-active {
+    @apply data-[open]:bg-gray-700;
+}
+
+.button-disabled {
+    @apply disabled:bg-zinc-600 cursor-not-allowed;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.animate-custom-spin {
+    animation: spin 2s linear infinite;
+}
