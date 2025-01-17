@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { Button } from "@headlessui/react";
+import {useEffect, useState} from "react";
+import {Button} from "@headlessui/react";
 
 const DeleteConfirmModal = ({
                                 message,
