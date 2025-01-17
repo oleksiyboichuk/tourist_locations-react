@@ -74,7 +74,7 @@ const TouristLocationTable = ({ locations }: { locations: GoogleLocationsRespons
                         "button-base button-focus button-hover button-active button-disabled"
                     )}
                 >
-                    Далі
+                    Наступні локації
                 </Button>
             </Field>
         </div>
