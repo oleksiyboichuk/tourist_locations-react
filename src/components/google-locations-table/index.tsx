@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { GoogleLocationsModel, GoogleLocationsResponseModel } from "../../models/google-location.model";
 import { Button, Field } from "@headlessui/react";
 import clsx from "clsx";
+import {searchLocations} from "../../services/tourist-location.service.ts";
 
-const TouristLocationTable = ({ locations }: { locations: GoogleLocationsResponseModel }) => {
+const TouristLocationTable = ({ locations, city, query }: { locations: GoogleLocationsResponseModel, city: string, query: string }) => {
     const touristLocations: GoogleLocationsModel[] = locations.results;
+    const [data, setData] = useState<GoogleLocationsModel[]| null>(locations.results);
 
     const [selectedLocations, setSelectedLocations] = useState<Set<string>>(
         new Set(touristLocations.map(location => location.place_id))
@@ -22,8 +24,9 @@ const TouristLocationTable = ({ locations }: { locations: GoogleLocationsRespons
         });
     };
 
-    const handleNextClick = () => {
+    const handleNextClick = async () => {
         const selectedData = touristLocations.filter(location => selectedLocations.has(location.place_id));
+        const nextLocations = await searchLocations(city, query, locations.next_page_token)
         console.log("Selected Locations:", selectedData);
     };
 

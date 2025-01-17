@@ -18,12 +18,16 @@ import GoogleLocationsTable from "../google-locations-table";
 
 const SearchLocationsForm = () => {
     const [locations, setLocations] = useState<GoogleLocationsResponseModel | null>(null);
+    const [selectedCity, setSelectedCity] = useState<string>('');
+    const [selectedQuery, setSelectedQuery] = useState<string>('');
 
     const {register, handleSubmit, formState: { errors }} = useForm({mode: "onSubmit"});
 
     const onSubmit = async (data: any): Promise<void> => {
         console.log('data', data);
         const {cityName, query} = data;
+        setSelectedCity(cityName);
+        setSelectedQuery(query);
         const locations: GoogleLocationsResponseModel | null = await searchLocations(cityName, query);
         console.log(locations);
         setLocations(locations);
@@ -89,7 +93,7 @@ const SearchLocationsForm = () => {
                     </Field>
                 </form>
             </div>
-            {locations && <GoogleLocationsTable locations={locations}/>}
+            {locations && selectedCity && selectedQuery && <GoogleLocationsTable locations={locations} city={selectedCity} query={selectedQuery}/>}
         </>
     );
 };
