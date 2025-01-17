@@ -38,7 +38,7 @@ const CitySelector: FC<CitySelectorProps> = ({ onCitySelect }) => {
             onChange={handleCityChange}
         >
             <option value="" disabled>Select a city</option>
-            {cities.map((city: CityListModel) => (
+            {cities && cities.map((city: CityListModel) => (
                 <option key={city.CityName} value={city.CityName}>
                     {city.CityName}
                 </option>
