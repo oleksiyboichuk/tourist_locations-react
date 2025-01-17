@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { LocationResponseModel } from "../../models/location.model";
-import { getLocationList } from "../../services/tourist-location.service.ts";
+import {deleteLocation, getLocationList} from "../../services/tourist-location.service.ts";
 
 import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -31,13 +31,18 @@ const TouristLocationTable = ({ city }: { city: string }) => {
         setDeleteModalOpen(true);
     };
 
-    const handleDeleteConfirm = (confirmed: boolean) => {
+    const handleDeleteConfirm = async (confirmed: boolean) => {
         setDeleteModalOpen(confirmed);
         if (confirmed && deleteTarget) {
-            console.log(`Видалення елемента з ID: ${deleteTarget}`);
+            try {
+                await deleteLocation(deleteTarget);
+                const updatedLocations: LocationResponseModel[] | null = await getLocationList(city);
+                setLocations(updatedLocations);
+            } catch (error) {
+                console.log('Помилка при видаленні локації: ', error);
+            }
             setDeleteModalOpen(false);
         } else {
-            console.log("Видалення скасовано");
             setDeleteModalOpen(false);
         }
     };
