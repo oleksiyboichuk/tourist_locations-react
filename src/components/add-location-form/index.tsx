@@ -17,7 +17,7 @@ import {IoChevronDownOutline} from "react-icons/io5";
 import {LocationModel} from "../../models/location.model";
 import {promptConfig} from "../../config/prompt.config.ts";
 
-import {generateTouristLocations} from "../../services/tourist-location.service.ts";
+import {generateTouristLocations, searchLocations} from "../../services/tourist-location.service.ts";
 
 const AddLocationForm = () => {
     const [loading, setLoading] = useState(false);
@@ -27,9 +27,11 @@ const AddLocationForm = () => {
 
     const onSubmit = async (data: any): Promise<void> => {
         setLoading(true);
-
-        const newLocations: LocationModel[] = await generateTouristLocations(data);
-        setLocations(newLocations);
+        console.log('data', data);
+        const findLocations = await searchLocations(data.cityName);
+        console.log(findLocations);
+        // const newLocations: LocationModel[] = await generateTouristLocations(data);
+        // setLocations(newLocations);
         setLoading(false);
     };
 

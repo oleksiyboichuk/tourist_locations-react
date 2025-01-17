@@ -1,8 +1,7 @@
 import { Select } from '@headlessui/react';
 import React, { FC, useEffect, useState } from "react";
-import { getCityList } from "../../services/tourist-location.service.ts";
+import {getCityList, searchLocations} from "../../services/tourist-location.service.ts";
 import { CityListModel } from "../../models/location.model.ts";
-import clsx from "clsx";
 
 interface CitySelectorProps {
     onCitySelect: (selectedCity: string) => void;
@@ -25,7 +24,7 @@ const CitySelector: FC<CitySelectorProps> = ({ onCitySelect }) => {
         fetchData();
     }, []);
 
-    const handleCityChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const handleCityChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
         const city = event.target.value;
         setSelectedCity(city);
         onCitySelect(city);

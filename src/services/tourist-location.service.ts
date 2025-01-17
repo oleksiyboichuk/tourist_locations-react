@@ -3,6 +3,12 @@ import {CityListModel, LocationModel, LocationPayloadModel, LocationResponseMode
 
 const baseURL = "http://localhost:3001/api";
 
+export const searchLocations = async(city: string): Promise<LocationResponseModel[] | null> => {
+    return axios
+        .get<LocationResponseModel[] | null>(`${baseURL}/location/search?cityName=${city}`, {})
+        .then((response) => response.data);
+}
+
 export const generateTouristLocations = async (
     params: LocationPayloadModel
 ): Promise<LocationModel[]> => {
