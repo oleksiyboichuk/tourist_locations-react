@@ -15,18 +15,24 @@ export const generateTouristLocations = async (
 
 export const getLocationList = async(city: string): Promise<LocationResponseModel[] | null> => {
     return axios
-        .get<LocationResponseModel[]>(`${baseURL}/location?cityName=${city}`, {})
+        .get<LocationResponseModel[] | null>(`${baseURL}/location?cityName=${city}`, {})
         .then((response) => response.data);
 }
 
-export const getCityList = async (): Promise<CityListModel[] | null> => {
+export const getLocationById = async(id: string): Promise<LocationResponseModel | null> => {
     return axios
-        .get<CityListModel[]>(`${baseURL}/cities`, {})
+        .get<LocationResponseModel | null>(`${baseURL}/location/${id}`, {})
         .then((response) => response.data);
-};
+}
 
 export const deleteLocation = async (id: string): Promise<any> => {
     return axios
         .delete<any>(`${baseURL}/location/${id}`, {})
+        .then((response) => response.data);
+};
+
+export const getCityList = async (): Promise<CityListModel[] | null> => {
+    return axios
+        .get<CityListModel[]>(`${baseURL}/cities`, {})
         .then((response) => response.data);
 };

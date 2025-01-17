@@ -5,11 +5,16 @@ import {deleteLocation, getLocationList} from "../../services/tourist-location.s
 import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import DeleteConfirmModal from "../modals/delete-confirm";
+import UpdateLocationModal from "../modals/update-location";
 
 const TouristLocationTable = ({ city }: { city: string }) => {
     const [locations, setLocations] = useState<LocationResponseModel[] | null>(null);
+
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
     const [deleteTarget, setDeleteTarget] = useState<string | null>(null);
+
+    const [updateLocationModal, setUpdateLocationModal] = useState(false);
+    const [updateTarget, setUpdateTarget] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -47,6 +52,16 @@ const TouristLocationTable = ({ city }: { city: string }) => {
         }
     };
 
+    const updateTouristLocation = (id: string) => {
+        setUpdateTarget(id);
+        setUpdateLocationModal(true);
+    };
+
+    const handleUpdateClose = () => {
+        setUpdateTarget(null);
+        setUpdateLocationModal(false);
+    };
+
     return (
         <div className="my-10">
             <div className="overflow-x-auto">
@@ -70,7 +85,9 @@ const TouristLocationTable = ({ city }: { city: string }) => {
                             </td>
                             <td className="px-4 py-2 border border-gray-700 text-center">
                                 <div
-                                    className="inline-block p-3 cursor-pointer rounded transition-all hover:text-neutral-700 group">
+                                    className="inline-block p-3 cursor-pointer rounded transition-all hover:text-neutral-700 group"
+                                    onClick={() => updateTouristLocation(location._id)}
+                                >
                                     <FaRegEdit
                                         className="text-xl text-neutral-500 transition-colors group-hover:text-neutral-400"/>
                                 </div>
@@ -94,6 +111,12 @@ const TouristLocationTable = ({ city }: { city: string }) => {
                 <DeleteConfirmModal
                     onClose={handleDeleteConfirm}
                     message="Ви впевнені, що хочете видалити дане поле?"
+                />
+            )}
+            {updateLocationModal && updateTarget && (
+                <UpdateLocationModal
+                    id={updateTarget}
+                    onClose={handleUpdateClose}
                 />
             )}
         </div>
