@@ -25,6 +25,12 @@ export const getLocationById = async(id: string): Promise<LocationResponseModel 
         .then((response) => response.data);
 }
 
+export const updateLocationById = async(id: string, location: LocationResponseModel) => {
+    return axios
+        .patch(`${baseURL}/location/${id}`, location)
+        .then((response) => response.data);
+}
+
 export const deleteLocation = async (id: string): Promise<any> => {
     return axios
         .delete<any>(`${baseURL}/location/${id}`, {})

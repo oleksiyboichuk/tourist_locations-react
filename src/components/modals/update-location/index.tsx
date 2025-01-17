@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
-import { useForm, Controller } from "react-hook-form";
-import { Tab } from "@headlessui/react";
-import { Button } from "@headlessui/react";
-import { getLocationById } from "../../../services/tourist-location.service.ts";
-import { LocationResponseModel } from "../../../models/location.model.ts";
+import {useEffect, useState} from "react";
+import {useForm, Controller} from "react-hook-form";
+import {Tab} from "@headlessui/react";
+import {Button} from "@headlessui/react";
+import {getLocationById, updateLocationById} from "../../../services/tourist-location.service.ts";
+import {LocationResponseModel} from "../../../models/location.model.ts";
 
 const UpdateLocationModal = ({
                                  id,
@@ -13,7 +13,7 @@ const UpdateLocationModal = ({
     onClose: (confirmed: boolean) => void;
 }) => {
     const [location, setLocation] = useState<LocationResponseModel | null>(null);
-    const { control, handleSubmit, setValue, getValues } = useForm();
+    const {control, handleSubmit, setValue, getValues} = useForm();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -26,13 +26,13 @@ const UpdateLocationModal = ({
                     setValue("CountryId", locationData.CountryId);
                     setValue("CityId", locationData.CityId);
                     setValue("CategoryId", locationData.CategoryId);
-                    setValue("Location.lat", locationData.Location.lat);
-                    setValue("Location.lng", locationData.Location.lng);
-                    setValue("Type", locationData.Type);
+                    setValue("Location.lat", locationData.Location?.lat || "");
+                    setValue("Location.lng", locationData.Location?.lng || "");
+                    setValue("Type", locationData.Type || []);
 
                     ["AddressMultiLanguage", "TitleMultiLanguage", "DescriptionMultiLanguage"].forEach(
                         (fieldKey) => {
-                            Object.keys(locationData[fieldKey]).forEach((lang) => {
+                            Object.keys(locationData[fieldKey] || {}).forEach((lang) => {
                                 setValue(`${fieldKey}.${lang}`, locationData[fieldKey][lang]);
                             });
                         }
@@ -46,22 +46,29 @@ const UpdateLocationModal = ({
         fetchData();
     }, [id, setValue]);
 
-    const onSubmit = (data: any) => {
+    const onSubmit = async (data: any) => {
         const formattedData = {
             ...location,
             ...data,
             Location: {
-                lat: data["Location.lat"],
-                lng: data["Location.lng"],
+                lat: data["Location.lat"] || location?.Location?.lat,
+                lng: data["Location.lng"] || location?.Location?.lng,
             },
-        };
+        }
 
         delete formattedData["Location.lat"];
         delete formattedData["Location.lng"];
 
         console.log("Updated Data:", formattedData);
+
+        try {
+            await updateLocationById(formattedData._id, formattedData);
+        } catch (error) {
+            console.log("Error updating data", error);
+        }
         onClose(true);
     };
+
 
     if (!location) return <div>Loading...</div>;
 
@@ -81,7 +88,7 @@ const UpdateLocationModal = ({
                         <Controller
                             name="CityName"
                             control={control}
-                            render={({ field }) => (
+                            render={({field}) => (
                                 <input
                                     disabled={true}
                                     {...field}
@@ -96,11 +103,12 @@ const UpdateLocationModal = ({
                             <Controller
                                 name="Location.lat"
                                 control={control}
-                                render={({ field }) => (
+                                render={({field}) => (
                                     <input
                                         type="text"
                                         placeholder="Latitude"
                                         {...field}
+                                        value={field.value || ""}
                                         className="w-full p-2 rounded bg-neutral-800"
                                     />
                                 )}
@@ -108,15 +116,17 @@ const UpdateLocationModal = ({
                             <Controller
                                 name="Location.lng"
                                 control={control}
-                                render={({ field }) => (
+                                render={({field}) => (
                                     <input
                                         type="text"
                                         placeholder="Longitude"
                                         {...field}
+                                        value={field.value || ""}
                                         className="w-full p-2 rounded bg-neutral-800"
                                     />
                                 )}
                             />
+
                         </div>
                     </div>
 
@@ -125,7 +135,7 @@ const UpdateLocationModal = ({
                         <Controller
                             name="Type"
                             control={control}
-                            render={({ field }) => (
+                            render={({field}) => (
                                 <input
                                     type="text"
                                     {...field}
@@ -144,7 +154,7 @@ const UpdateLocationModal = ({
                                         {Object.keys(location[fieldKey]).map((lang) => (
                                             <Tab
                                                 key={lang}
-                                                className={({ selected }) =>
+                                                className={({selected}) =>
                                                     `px-3 py-1 rounded mb-1 ${
                                                         selected ? "bg-green-700" : "bg-neutral-800"
                                                     }`
@@ -162,7 +172,7 @@ const UpdateLocationModal = ({
                                                     name={`${fieldKey}.${lang}`}
                                                     control={control}
                                                     defaultValue={location[fieldKey][lang]}
-                                                    render={({ field }) => (
+                                                    render={({field}) => (
                                                         <textarea
                                                             {...field}
                                                             rows={4}
