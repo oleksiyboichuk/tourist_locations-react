@@ -41,30 +41,23 @@ const TouristLocationTable = ({ city, query }: { city: string; query: string }) 
 
     const handleNextClick = async (): Promise<void> => {
         try {
-            // Отримуємо вибрані локації
             const selectedData = locations.filter(location => selectedLocations.has(location.place_id));
             console.log("Selected Locations:", selectedData);
 
             if (!nextPage) return;
 
-            // Завантажуємо нові локації
             const response: GoogleLocationsResponseModel | null = await searchLocations(city, query, nextPage);
             if (response && response.results) {
-                console.log('response.results', response.results);
-                setLocations(response.results); // Замінюємо старі локації новими
+                setLocations(response.results);
                 setNextPage(response.next_page_token || null);
-                // Зберігаємо тільки вибрані місця для старих даних
-                setSelectedLocations(prev => {
-                    const updated = new Set(prev);
-                    selectedData.forEach(location => updated.add(location.place_id)); // Додаємо вибрані місця
-                    console.log('updated', updated);
-                    return updated;
-                });
+
+                setSelectedLocations(new Set(response.results.map(location => location.place_id)));
             }
         } catch (error) {
             console.error(error);
         }
     };
+
 
     return (
         <div>
