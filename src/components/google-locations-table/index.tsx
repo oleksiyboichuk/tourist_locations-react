@@ -1,34 +1,33 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { GoogleLocationsModel, GoogleLocationsResponseModel } from "../../models/google-location.model";
 import { Button, Field } from "@headlessui/react";
 import clsx from "clsx";
-import {searchLocations} from "../../services/tourist-location.service.ts";
+import { searchLocations } from "../../services/tourist-location.service.ts";
 
-const TouristLocationTable = ({ city, query }: {city: string, query: string }) => {
-    const [locations, setLocations] = useState<GoogleLocationsModel[]| null>(null);
+const TouristLocationTable = ({ city, query }: { city: string; query: string }) => {
+    const [locations, setLocations] = useState<GoogleLocationsModel[]>([]);
     const [nextPage, setNextPage] = useState<string | null>(null);
+    const [selectedLocations, setSelectedLocations] = useState<Set<string>>(new Set());
 
     useEffect(() => {
-        const fetchLocations = async() => {
+        const fetchLocations = async (): Promise<void> => {
             try {
-                const locations: GoogleLocationsResponseModel | null = await searchLocations(city, query);
-                if(locations && locations.next_page_token && locations.results) {
-                    setLocations(locations.results);
-                    setNextPage(locations?.next_page_token)
+                const response: GoogleLocationsResponseModel | null = await searchLocations(city, query);
+                if (response && response.results) {
+                    setLocations(response.results);
+                    setNextPage(response.next_page_token || null);
+                    // Встановлюємо всі локації обраними за замовчуванням
+                    setSelectedLocations(new Set(response.results.map(location => location.place_id)));
                 }
             } catch (error) {
                 console.error(error);
             }
-        }
+        };
 
-        fetchLocations()
+        fetchLocations();
     }, [city, query]);
 
-    const [selectedLocations, setSelectedLocations] = useState<Set<string>>(
-        new Set(locations && locations.map(location => location.place_id))
-    );
-
-    const handleCheckboxChange = (placeId: string) => {
+    const handleCheckboxChange = (placeId: string): void => {
         setSelectedLocations(prev => {
             const updated = new Set(prev);
             if (updated.has(placeId)) {
@@ -40,15 +39,35 @@ const TouristLocationTable = ({ city, query }: {city: string, query: string }) =
         });
     };
 
-    const handleNextClick = async () => {
-        const selectedData = locations && locations.filter(location => selectedLocations.has(location.place_id));
-        const nextLocations: any = city && query && nextPage && await searchLocations(city, query, nextPage);
-        setLocations(nextLocations.results)
-        console.log("Selected Locations:", selectedData);
+    const handleNextClick = async (): Promise<void> => {
+        try {
+            // Отримуємо вибрані локації
+            const selectedData = locations.filter(location => selectedLocations.has(location.place_id));
+            console.log("Selected Locations:", selectedData);
+
+            if (!nextPage) return;
+
+            // Завантажуємо нові локації
+            const response: GoogleLocationsResponseModel | null = await searchLocations(city, query, nextPage);
+            if (response && response.results) {
+                console.log('response.results', response.results);
+                setLocations(response.results); // Замінюємо старі локації новими
+                setNextPage(response.next_page_token || null);
+                // Зберігаємо тільки вибрані місця для старих даних
+                setSelectedLocations(prev => {
+                    const updated = new Set(prev);
+                    selectedData.forEach(location => updated.add(location.place_id)); // Додаємо вибрані місця
+                    console.log('updated', updated);
+                    return updated;
+                });
+            }
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     return (
-        <div className="">
+        <div>
             <table className="w-full border-collapse text-white">
                 <thead>
                 <tr className="bg-gray-800">
@@ -61,7 +80,7 @@ const TouristLocationTable = ({ city, query }: {city: string, query: string }) =
                 </tr>
                 </thead>
                 <tbody>
-                {locations && locations.map((location: GoogleLocationsModel) => (
+                {locations.map((location: GoogleLocationsModel) => (
                     <tr key={location.place_id} className="bg-transparent">
                         <td className="border border-gray-600 p-2 text-center">
                             <label className="relative inline-flex items-center">
@@ -79,7 +98,7 @@ const TouristLocationTable = ({ city, query }: {city: string, query: string }) =
                         </td>
                         <td className="border border-gray-600 p-2">{location.name}</td>
                         <td className="border border-gray-600 p-2">{location.formatted_address}</td>
-                        <td className="border border-gray-600 p-2">{location.types.join(', ')}</td>
+                        <td className="border border-gray-600 p-2">{location.types.join(", ")}</td>
                         <td className="border border-gray-600 p-2">{location.business_status}</td>
                         <td className="border border-gray-600 p-2 text-center">{location.rating}</td>
                     </tr>
