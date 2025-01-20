@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { GoogleLocationsModel, GoogleLocationsResponseModel } from "../../models/google-location.model";
-import { Button, Field } from "@headlessui/react";
+import {useEffect, useState} from "react";
+import {GoogleLocationsModel, GoogleLocationsResponseModel} from "../../models/google-location.model";
+import {Button, Field} from "@headlessui/react";
 import clsx from "clsx";
-import { searchLocations } from "../../services/tourist-location.service.ts";
+import {searchLocations} from "../../services/tourist-location.service.ts";
+import {MdLibraryAddCheck} from "react-icons/md";
+import {MdOutlineLibraryAddCheck} from "react-icons/md";
 
-const TouristLocationTable = ({ city, query }: { city: string; query: string }) => {
+const TouristLocationTable = ({city, query}: { city: string; query: string }) => {
     const [locations, setLocations] = useState<GoogleLocationsModel[]>([]);
     const [nextPage, setNextPage] = useState<string | null>(null);
     const [selectedLocations, setSelectedLocations] = useState<Set<string>>(new Set());
+    const [allSelected, setAllSelected] = useState<boolean>(true); // Стан для кнопки toggle
 
     useEffect(() => {
         const fetchLocations = async (): Promise<void> => {
@@ -16,8 +19,7 @@ const TouristLocationTable = ({ city, query }: { city: string; query: string }) 
                 if (response && response.results) {
                     setLocations(response.results);
                     setNextPage(response.next_page_token || null);
-                    // Встановлюємо всі локації обраними за замовчуванням
-                    setSelectedLocations(new Set(response.results.map(location => location.place_id)));
+                    setSelectedLocations(new Set(response.results.map((location: GoogleLocationsModel) => location.place_id)));
                 }
             } catch (error) {
                 console.error(error);
@@ -39,9 +41,18 @@ const TouristLocationTable = ({ city, query }: { city: string; query: string }) 
         });
     };
 
+    const toggleSelectAll = (): void => {
+        if (allSelected) {
+            setSelectedLocations(new Set());
+        } else {
+            setSelectedLocations(new Set(locations.map((location: GoogleLocationsModel) => location.place_id)));
+        }
+        setAllSelected(!allSelected);
+    };
+
     const handleNextClick = async (): Promise<void> => {
         try {
-            const selectedData = locations.filter(location => selectedLocations.has(location.place_id));
+            const selectedData: GoogleLocationsModel[] = locations.filter((location: GoogleLocationsModel) => selectedLocations.has(location.place_id));
             console.log("Selected Locations:", selectedData);
 
             if (!nextPage) return;
@@ -51,20 +62,28 @@ const TouristLocationTable = ({ city, query }: { city: string; query: string }) 
                 setLocations(response.results);
                 setNextPage(response.next_page_token || null);
 
-                setSelectedLocations(new Set(response.results.map(location => location.place_id)));
+                setSelectedLocations(new Set(response.results.map((location: GoogleLocationsModel) => location.place_id)));
+                setAllSelected(true);
             }
         } catch (error) {
             console.error(error);
         }
     };
 
-
     return (
         <div>
             <table className="w-full border-collapse text-white">
                 <thead>
                 <tr className="bg-gray-800">
-                    <th className="border border-gray-600 p-2">Вибір</th>
+                    <th className="border border-gray-600 p-2 text-center">
+                        <Button
+                            type="button"
+                            onClick={toggleSelectAll}
+                            className="bg-gray-500 text-white px-4 py-2 rounded text-2xl transition-colors hover:bg-gray-400/70"
+                        >
+                            {allSelected ? <MdLibraryAddCheck/> : <MdOutlineLibraryAddCheck/>}
+                        </Button>
+                    </th>
                     <th className="border border-gray-600 p-2">Ім'я</th>
                     <th className="border border-gray-600 p-2">Адреса</th>
                     <th className="border border-gray-600 p-2">Тип</th>
