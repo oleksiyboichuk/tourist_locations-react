@@ -10,10 +10,11 @@ export const searchLocations = async(city: string, query: string, next?: string)
         .then((response) => response.data);
 }
 
-export const saveLocations = async(locations: GoogleLocationsModel[]): Promise<string | null>  => {
+export const saveLocations = async(locations: GoogleLocationsModel[], cityName: string): Promise<string | null>  => {
     return axios
         .post<string>(`${baseURL}/location`, {
             locations,
+            cityName
         })
         .then((response) => response.data);
 }

@@ -54,7 +54,7 @@ const TouristLocationTable = ({city, query}: { city: string; query: string }) =>
         try {
             const selectedData: GoogleLocationsModel[] = locations.filter((location: GoogleLocationsModel) => selectedLocations.has(location.place_id));
             console.log("Selected Locations:", selectedData);
-            const savedLocations = await saveSelectedLocations(selectedData);
+            const savedLocations = await saveSelectedLocations(selectedData, city);
             console.log(savedLocations);
 
             if (!nextPage) return;
@@ -72,9 +72,9 @@ const TouristLocationTable = ({city, query}: { city: string; query: string }) =>
         }
     };
 
-    const saveSelectedLocations = async (locations: GoogleLocationsModel[]) => {
+    const saveSelectedLocations = async (locations: GoogleLocationsModel[], city: string) => {
         try {
-            const savedLocations = await saveLocations(locations);
+            const savedLocations = await saveLocations(locations, city);
             if (!savedLocations) {
                 console.log("Error save location");
                 return;
@@ -123,11 +123,11 @@ const TouristLocationTable = ({city, query}: { city: string; query: string }) =>
                                     </span>
                             </label>
                         </td>
-                        <td className="border border-gray-600 p-2">{location.name}</td>
-                        <td className="border border-gray-600 p-2">{location.formatted_address}</td>
-                        <td className="border border-gray-600 p-2">{location.types.join(", ")}</td>
-                        <td className="border border-gray-600 p-2">{location.business_status}</td>
-                        <td className="border border-gray-600 p-2 text-center">{location.rating}</td>
+                        <td className="border border-neutral-600 p-2">{location.name}</td>
+                        <td className="border border-neutral-600 p-2">{location.formatted_address}</td>
+                        <td className="border border-neutral-600 p-2">{location.types.join(", ")}</td>
+                        <td className="border border-neutral-600 p-2">{location.business_status}</td>
+                        <td className="border border-neutral-600 p-2 text-center">{location.rating}</td>
                     </tr>
                 ))}
                 </tbody>
