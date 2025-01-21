@@ -168,7 +168,7 @@ const UpdateLocationModal = ({
                                             ))}
                                         </div>
                                         <Tab
-                                            className="px-2 py-1 rounded mb-1 bg-neutral-700 transition-colors hover:bg-amber-700"><RiAiGenerate2
+                                            className="px-2 py-1 rounded mb-1 bg-neutral-700 transition-colors hover:bg-rose-600"><RiAiGenerate2
                                             className="text-xl"/></Tab>
                                     </Tab.List>
 
