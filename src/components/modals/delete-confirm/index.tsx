@@ -49,7 +49,7 @@ const DeleteConfirmModal = ({
                         Так
                     </Button>
                     <Button
-                        className="bg-rose-700 text-white px-4 py-1 rounded transition-colors hover:bg-rose-600/90"
+                        className="bg-neutral-700 text-white px-4 py-1 rounded transition-colors hover:bg-rose-600/90"
                         onClick={() => handleClose(false)}
                     >
                         Закрити

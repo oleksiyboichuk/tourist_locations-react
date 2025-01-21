@@ -5,6 +5,8 @@ import {Button} from "@headlessui/react";
 import {getLocationById, updateLocationById} from "../../../services/tourist-location.service.ts";
 import {GoogleLocationsModifiedModel} from "../../../models/google-location.model.ts";
 
+import { RiAiGenerate2 } from "react-icons/ri";
+
 const UpdateLocationModal = ({
                                  id,
                                  onClose,
@@ -150,23 +152,26 @@ const UpdateLocationModal = ({
                             <div key={fieldKey}>
                                 <label>{fieldKey.replace("multi_language", "")}</label>
                                 <Tab.Group>
-                                    <Tab.List className="flex space-x-1">
-                                        {Object.keys(location[fieldKey]).map((lang) => (
-                                            <Tab
-                                                key={lang}
-                                                className={({selected}) =>
-                                                    `px-3 py-1 rounded mb-1 ${
-                                                        selected ? "bg-green-700" : "bg-neutral-800"
-                                                    }`
-                                                }
-                                            >
-                                                {lang}
-                                            </Tab>
-                                        ))}
+                                    <Tab.List className="flex space-x-1 justify-between">
+                                       <div>
+                                           {Object.keys(location[fieldKey]).map((lang) => (
+                                               <Tab
+                                                   key={lang}
+                                                   className={({selected}) =>
+                                                       `px-3 py-1 rounded mr-1 mb-1 ${
+                                                           selected ? "bg-green-800" : "bg-neutral-800"
+                                                       }`
+                                                   }
+                                               >
+                                                   {lang}
+                                               </Tab>
+                                           ))}
+                                       </div>
+                                        <Tab className="px-2 py-1 rounded mb-1 bg-neutral-700 transition-colors hover:bg-amber-700"><RiAiGenerate2 className="text-xl"/></Tab>
                                     </Tab.List>
 
                                     <Tab.Panels>
-                                        {Object.keys(location[fieldKey]).map((lang) => (
+                                        {Object.keys(location[fieldKey]).map((lang, index) => (
                                             <Tab.Panel key={lang}>
                                                 <Controller
                                                     name={`${fieldKey}.${lang}`}
@@ -175,7 +180,7 @@ const UpdateLocationModal = ({
                                                     render={({field}) => (
                                                         <textarea
                                                             {...field}
-                                                            rows={4}
+                                                            rows={fieldKey === 'description_multi_language' ? 6 : 3}
                                                             className="w-full p-2 rounded bg-neutral-800"
                                                         ></textarea>
                                                     )}
@@ -197,7 +202,7 @@ const UpdateLocationModal = ({
                         </Button>
                         <Button
                             type="button"
-                            className="bg-rose-700 text-white px-4 py-1 rounded transition-colors hover:bg-rose-600/90"
+                            className="bg-neutral-700 text-white px-4 py-1 rounded transition-colors hover:bg-rose-600/90"
                             onClick={() => onClose(false)}
                         >
                             Закрити
