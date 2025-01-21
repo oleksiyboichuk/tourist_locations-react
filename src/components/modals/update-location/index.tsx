@@ -82,11 +82,11 @@ const UpdateLocationModal = ({
             ></div>
 
             <div
-                className="relative bg-neutral-900 py-5 px-7 border-[1px] border-white/5 rounded shadow-lg z-10 transition-opacity duration-300"
+                className="relative bg-neutral-900 py-5 px-7 border-[1px] border-white/5 rounded shadow-lg z-10 transition-opacity duration-300 w-[50%]"
             >
                 <form onSubmit={handleSubmit(onSubmit)} className="text-white space-y-4">
                     <div>
-                        <label>City Name</label>
+                        <label>Ім'я міста</label>
                         <Controller
                             name="city_name"
                             control={control}
@@ -100,40 +100,21 @@ const UpdateLocationModal = ({
                         />
                     </div>
                     <div>
-                        <label>Location</label>
-                        <div className="grid grid-cols-2 gap-4">
-                            <Controller
-                                name="location.lat"
-                                control={control}
-                                render={({field}) => (
-                                    <input
-                                        type="text"
-                                        placeholder="Latitude"
-                                        {...field}
-                                        value={field.value || ""}
-                                        className="w-full p-2 rounded bg-neutral-800"
-                                    />
-                                )}
-                            />
-                            <Controller
-                                name="location.lng"
-                                control={control}
-                                render={({field}) => (
-                                    <input
-                                        type="text"
-                                        placeholder="Longitude"
-                                        {...field}
-                                        value={field.value || ""}
-                                        className="w-full p-2 rounded bg-neutral-800"
-                                    />
-                                )}
-                            />
-
+                        <label>Розташування</label>
+                        <div className="space-y-2 w-full">
+                            <Button className="bg-green-900 px-4 py-1 rounded transition-colors hover:bg-green-800"> <a
+                                href={`https://www.google.com/maps?q=${location.geometry.location.lat},${location.geometry.location.lng}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="block no-underline"
+                            >
+                                Показати на карті
+                            </a></Button>
                         </div>
                     </div>
 
                     <div>
-                        <label>Type</label>
+                        <label>Тип</label>
                         <Controller
                             name="type"
                             control={control}
@@ -167,9 +148,9 @@ const UpdateLocationModal = ({
                                                 </Tab>
                                             ))}
                                         </div>
-                                        <Tab
-                                            className="px-2 py-1 rounded mb-1 bg-neutral-700 transition-colors hover:bg-rose-600"><RiAiGenerate2
-                                            className="text-xl"/></Tab>
+                                        <span
+                                            className="flex justify-center items-center px-2 py-1 rounded mb-1 bg-neutral-700 transition-colors hover:bg-rose-600 cursor-pointer"><RiAiGenerate2
+                                            className="text-xl"/></span>
                                     </Tab.List>
 
                                     <Tab.Panels>
