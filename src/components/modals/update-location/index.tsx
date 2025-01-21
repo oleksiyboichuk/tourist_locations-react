@@ -3,7 +3,6 @@ import {useForm, Controller} from "react-hook-form";
 import {Tab} from "@headlessui/react";
 import {Button} from "@headlessui/react";
 import {getLocationById, updateLocationById} from "../../../services/tourist-location.service.ts";
-import {LocationResponseModel} from "../../../models/location.model.ts";
 import {GoogleLocationsModifiedModel} from "../../../models/google-location.model.ts";
 
 const UpdateLocationModal = ({
