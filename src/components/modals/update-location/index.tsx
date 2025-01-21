@@ -4,6 +4,7 @@ import {Tab} from "@headlessui/react";
 import {Button} from "@headlessui/react";
 import {getLocationById, updateLocationById} from "../../../services/tourist-location.service.ts";
 import {LocationResponseModel} from "../../../models/location.model.ts";
+import {GoogleLocationsModifiedModel} from "../../../models/google-location.model.ts";
 
 const UpdateLocationModal = ({
                                  id,
@@ -12,7 +13,7 @@ const UpdateLocationModal = ({
     id: string;
     onClose: (confirmed: boolean) => void;
 }) => {
-    const [location, setLocation] = useState<LocationResponseModel | null>(null);
+    const [location, setLocation] = useState<GoogleLocationsModifiedModel | null>(null);
     const {control, handleSubmit, setValue, getValues} = useForm();
 
     useEffect(() => {
@@ -22,15 +23,15 @@ const UpdateLocationModal = ({
                 setLocation(locationData);
 
                 if (locationData) {
-                    setValue("CityName", locationData.CityName);
-                    setValue("CountryId", locationData.CountryId);
-                    setValue("CityId", locationData.CityId);
-                    setValue("CategoryId", locationData.CategoryId);
-                    setValue("Location.lat", locationData.Location?.lat || "");
-                    setValue("Location.lng", locationData.Location?.lng || "");
-                    setValue("Type", locationData.Type || []);
+                    setValue("city_name", locationData.city_name);
+                    setValue("country_id", locationData.country_id);
+                    setValue("city_id", locationData.city_id);
+                    setValue("category_id", locationData.category_id);
+                    setValue("location.lat", locationData.geometry.location.lat || "");
+                    setValue("location.lng", locationData.geometry.location.lng || "");
+                    setValue("type", locationData.types || []);
 
-                    ["AddressMultiLanguage", "TitleMultiLanguage", "DescriptionMultiLanguage"].forEach(
+                    ["address_multi_language", "title_multi_language", "description_multi_language"].forEach(
                         (fieldKey) => {
                             Object.keys(locationData[fieldKey] || {}).forEach((lang) => {
                                 setValue(`${fieldKey}.${lang}`, locationData[fieldKey][lang]);
@@ -51,13 +52,13 @@ const UpdateLocationModal = ({
             ...location,
             ...data,
             Location: {
-                lat: data["Location.lat"] || location?.Location?.lat,
-                lng: data["Location.lng"] || location?.Location?.lng,
+                lat: data["location.lat"] || location?.geometry.location.lat,
+                lng: data["location.lng"] || location?.geometry.location.lng,
             },
         }
 
-        delete formattedData["Location.lat"];
-        delete formattedData["Location.lng"];
+        delete formattedData["location.lat"];
+        delete formattedData["location.lng"];
 
         console.log("Updated Data:", formattedData);
 
@@ -86,7 +87,7 @@ const UpdateLocationModal = ({
                     <div>
                         <label>City Name</label>
                         <Controller
-                            name="CityName"
+                            name="city_name"
                             control={control}
                             render={({field}) => (
                                 <input
@@ -101,7 +102,7 @@ const UpdateLocationModal = ({
                         <label>Location</label>
                         <div className="grid grid-cols-2 gap-4">
                             <Controller
-                                name="Location.lat"
+                                name="location.lat"
                                 control={control}
                                 render={({field}) => (
                                     <input
@@ -114,7 +115,7 @@ const UpdateLocationModal = ({
                                 )}
                             />
                             <Controller
-                                name="Location.lng"
+                                name="location.lng"
                                 control={control}
                                 render={({field}) => (
                                     <input
@@ -133,7 +134,7 @@ const UpdateLocationModal = ({
                     <div>
                         <label>Type</label>
                         <Controller
-                            name="Type"
+                            name="type"
                             control={control}
                             render={({field}) => (
                                 <input
@@ -145,10 +146,10 @@ const UpdateLocationModal = ({
                         />
                     </div>
 
-                    {["AddressMultiLanguage", "TitleMultiLanguage", "DescriptionMultiLanguage"].map(
+                    {["address_multi_language", "title_multi_language", "description_multi_language"].map(
                         (fieldKey) => (
                             <div key={fieldKey}>
-                                <label>{fieldKey.replace("MultiLanguage", "")}</label>
+                                <label>{fieldKey.replace("multi_language", "")}</label>
                                 <Tab.Group>
                                     <Tab.List className="flex space-x-1">
                                         {Object.keys(location[fieldKey]).map((lang) => (

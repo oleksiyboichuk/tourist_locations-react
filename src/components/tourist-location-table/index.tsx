@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
-import { LocationResponseModel } from "../../models/location.model";
 import {deleteLocation, getLocationList} from "../../services/tourist-location.service.ts";
 
 import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import DeleteConfirmModal from "../modals/delete-confirm";
 import UpdateLocationModal from "../modals/update-location";
+import {GoogleLocationsModifiedModel} from "../../models/google-location.model.ts";
 
 const TouristLocationTable = ({ city }: { city: string }) => {
-    const [locations, setLocations] = useState<LocationResponseModel[] | null>(null);
+    const [locations, setLocations] = useState<GoogleLocationsModifiedModel[] | null>(null);
 
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
     const [deleteTarget, setDeleteTarget] = useState<string | null>(null);
@@ -19,7 +19,7 @@ const TouristLocationTable = ({ city }: { city: string }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const locations: LocationResponseModel[] | null = await getLocationList(city);
+                const locations: GoogleLocationsModifiedModel[] | null = await getLocationList(city);
                 setLocations(locations);
                 console.log('locations', locations);
             } catch (error) {
@@ -41,7 +41,7 @@ const TouristLocationTable = ({ city }: { city: string }) => {
         if (confirmed && deleteTarget) {
             try {
                 await deleteLocation(deleteTarget);
-                const updatedLocations: LocationResponseModel[] | null = await getLocationList(city);
+                const updatedLocations: GoogleLocationsModifiedModel[] | null = await getLocationList(city);
                 setLocations(updatedLocations);
             } catch (error) {
                 console.log('Помилка при видаленні локації: ', error);
@@ -76,12 +76,12 @@ const TouristLocationTable = ({ city }: { city: string }) => {
                     </tr>
                     </thead>
                     <tbody className="bg-transparent text-white">
-                    {locations && locations.map((location: LocationResponseModel) => (
+                    {locations && locations.map((location: GoogleLocationsModifiedModel) => (
                         <tr key={location._id} className="border border-gray-700">
-                            <td className="px-4 py-2 border border-gray-700">{location.TitleMultiLanguage['uk']}</td>
-                            <td className="px-4 py-2 border border-gray-700">{location.AddressMultiLanguage['uk']}</td>
+                            <td className="px-4 py-2 border border-gray-700">{location.title_multi_language['uk']}</td>
+                            <td className="px-4 py-2 border border-gray-700">{location.address_multi_language['uk']}</td>
                             <td className="px-4 py-2 border border-gray-700">
-                                {`Lat: ${location.Location.lat}, Lng: ${location.Location.lng}`}
+                                {`Lat: ${location.geometry.location.lat}, Lng: ${location.geometry.location.lng}`}
                             </td>
                             <td className="px-4 py-2 border border-gray-700 text-center">
                                 <div
@@ -107,16 +107,16 @@ const TouristLocationTable = ({ city }: { city: string }) => {
                     </tbody>
                 </table>
             </div>
-            {deleteModalOpen && (
-                <DeleteConfirmModal
-                    onClose={handleDeleteConfirm}
-                    message="Ви впевнені, що хочете видалити дане поле?"
-                />
-            )}
             {updateLocationModal && updateTarget && (
                 <UpdateLocationModal
                     id={updateTarget}
                     onClose={handleUpdateClose}
+                />
+            )}
+            {deleteModalOpen && (
+                <DeleteConfirmModal
+                    onClose={handleDeleteConfirm}
+                    message="Ви впевнені, що хочете видалити дане поле?"
                 />
             )}
         </div>

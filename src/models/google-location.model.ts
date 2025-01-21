@@ -26,7 +26,7 @@ export interface GoogleLocationsModel {
     icon_background_color: string;
     icon_mask_base_uri: string;
     name: string;
-    opening_hours: {
+    opening_hours?: {
         open_now: boolean;
     },
     photos: [
@@ -46,4 +46,19 @@ export interface GoogleLocationsModel {
     reference: string;
     types: string[];
     user_ratings_total: number;
+}
+
+export interface GoogleLocationsModifiedModel extends GoogleLocationsModel {
+    _id: string;
+    country_id: string;
+    city_name: string;
+    city_id: string;
+    category_id: string;
+    address_multi_language: MultiLanguageMap;
+    title_multi_language: MultiLanguageMap;
+    description_multi_language: MultiLanguageMap;
+}
+
+interface MultiLanguageMap {
+    [key: string]: string;
 }

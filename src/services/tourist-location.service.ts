@@ -1,6 +1,10 @@
 import axios from "axios";
-import {CityListModel, LocationResponseModel} from "../models/location.model";
-import {GoogleLocationsModel, GoogleLocationsResponseModel} from "../models/google-location.model.ts";
+import {CityListModel} from "../models/location.model";
+import {
+    GoogleLocationsModel,
+    GoogleLocationsModifiedModel,
+    GoogleLocationsResponseModel
+} from "../models/google-location.model.ts";
 
 const baseURL = "http://localhost:3001/api";
 
@@ -29,19 +33,19 @@ export const saveLocations = async(locations: GoogleLocationsModel[], cityName: 
 //         .then((response) => response.data);
 // };
 
-export const getLocationList = async(city: string): Promise<LocationResponseModel[] | null> => {
+export const getLocationList = async(city: string): Promise<GoogleLocationsModifiedModel[] | null> => {
     return axios
-        .get<LocationResponseModel[] | null>(`${baseURL}/location?cityName=${city}`, {})
+        .get<GoogleLocationsModifiedModel[] | null>(`${baseURL}/location?cityName=${city}`, {})
         .then((response) => response.data);
 }
 
-export const getLocationById = async(id: string): Promise<LocationResponseModel | null> => {
+export const getLocationById = async(id: string): Promise<GoogleLocationsModifiedModel | null> => {
     return axios
-        .get<LocationResponseModel | null>(`${baseURL}/location/${id}`, {})
+        .get<GoogleLocationsModifiedModel | null>(`${baseURL}/location/${id}`, {})
         .then((response) => response.data);
 }
 
-export const updateLocationById = async(id: string, location: LocationResponseModel) => {
+export const updateLocationById = async(id: string, location: GoogleLocationsModifiedModel) => {
     return axios
         .patch(`${baseURL}/location/${id}`, location)
         .then((response) => response.data);
