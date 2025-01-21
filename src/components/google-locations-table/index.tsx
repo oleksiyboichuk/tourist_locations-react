@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {GoogleLocationsModel, GoogleLocationsResponseModel} from "../../models/google-location.model";
 import {Button, Field} from "@headlessui/react";
 import clsx from "clsx";
-import {searchLocations} from "../../services/tourist-location.service.ts";
+import {saveLocations, searchLocations} from "../../services/tourist-location.service.ts";
 import {MdLibraryAddCheck} from "react-icons/md";
 import {MdOutlineLibraryAddCheck} from "react-icons/md";
 
@@ -54,6 +54,8 @@ const TouristLocationTable = ({city, query}: { city: string; query: string }) =>
         try {
             const selectedData: GoogleLocationsModel[] = locations.filter((location: GoogleLocationsModel) => selectedLocations.has(location.place_id));
             console.log("Selected Locations:", selectedData);
+            const savedLocations = await saveSelectedLocations(selectedData);
+            console.log(savedLocations);
 
             if (!nextPage) return;
 
@@ -70,37 +72,50 @@ const TouristLocationTable = ({city, query}: { city: string; query: string }) =>
         }
     };
 
+    const saveSelectedLocations = async (locations: GoogleLocationsModel[]) => {
+        try {
+            const savedLocations = await saveLocations(locations);
+            if (!savedLocations) {
+                console.log("Error save location");
+                return;
+            }
+            return savedLocations;
+        } catch (error) {
+            console.log("Error inside saveSelectedLocations", error);
+        }
+    }
+
     return (
         <div>
             <table className="w-full border-collapse text-white">
                 <thead>
-                <tr className="bg-gray-800">
-                    <th className="border border-gray-600 p-2 text-center">
+                <tr className="bg-neutral-900">
+                    <th className="border border-neutral-600 p-2 text-center">
                         <Button
                             type="button"
                             onClick={toggleSelectAll}
-                            className="bg-gray-500 text-white px-4 py-2 rounded text-2xl transition-colors hover:bg-gray-400/70"
+                            className="bg-neutral-700 text-white px-4 py-2 rounded text-2xl transition-colors hover:bg-neutral-600/80"
                         >
                             {allSelected ? <MdLibraryAddCheck/> : <MdOutlineLibraryAddCheck/>}
                         </Button>
                     </th>
-                    <th className="border border-gray-600 p-2">Ім'я</th>
-                    <th className="border border-gray-600 p-2">Адреса</th>
-                    <th className="border border-gray-600 p-2">Тип</th>
-                    <th className="border border-gray-600 p-2">Бізнес статус</th>
-                    <th className="border border-gray-600 p-2">Рейтинг</th>
+                    <th className="border border-neutral-600 p-2">Ім'я</th>
+                    <th className="border border-neutral-600 p-2">Адреса</th>
+                    <th className="border border-neutral-600 p-2">Тип</th>
+                    <th className="border border-neutral-600 p-2">Бізнес статус</th>
+                    <th className="border border-neutral-600 p-2">Рейтинг</th>
                 </tr>
                 </thead>
                 <tbody>
                 {locations.map((location: GoogleLocationsModel) => (
                     <tr key={location.place_id} className="bg-transparent">
-                        <td className="border border-gray-600 p-2 text-center">
+                        <td className="border border-neutral-600 p-2 text-center">
                             <label className="relative inline-flex items-center">
                                 <input
                                     type="checkbox"
                                     checked={selectedLocations.has(location.place_id)}
                                     onChange={() => handleCheckboxChange(location.place_id)}
-                                    className="peer appearance-none h-5 w-5 border border-gray-500 rounded-sm bg-gray-800 checked:bg-neutral-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="peer appearance-none h-5 w-5 border border-neutral-500 rounded-sm bg-neutral-800 checked:bg-neutral-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 />
                                 <span
                                     className="absolute inset-0 flex items-center justify-center text-white pointer-events-none peer-checked:opacity-100 opacity-0">

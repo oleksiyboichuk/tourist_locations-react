@@ -1,6 +1,6 @@
 import axios from "axios";
-import {CityListModel, LocationModel, LocationPayloadModel, LocationResponseModel} from "../models/location.model";
-import {GoogleLocationsResponseModel} from "../models/google-location.model.ts";
+import {CityListModel, LocationResponseModel} from "../models/location.model";
+import {GoogleLocationsModel, GoogleLocationsResponseModel} from "../models/google-location.model.ts";
 
 const baseURL = "http://localhost:3001/api";
 
@@ -10,15 +10,23 @@ export const searchLocations = async(city: string, query: string, next?: string)
         .then((response) => response.data);
 }
 
-export const generateTouristLocations = async (
-    params: LocationPayloadModel
-): Promise<LocationModel[]> => {
+export const saveLocations = async(locations: GoogleLocationsModel[]): Promise<string | null>  => {
     return axios
-        .post<LocationModel[]>(`${baseURL}/location`, {
-            params,
+        .post<string>(`${baseURL}/location`, {
+            locations,
         })
         .then((response) => response.data);
-};
+}
+
+// export const generateTouristLocations = async (
+//     params: LocationPayloadModel
+// ): Promise<LocationModel[]> => {
+//     return axios
+//         .post<LocationModel[]>(`${baseURL}/location`, {
+//             params,
+//         })
+//         .then((response) => response.data);
+// };
 
 export const getLocationList = async(city: string): Promise<LocationResponseModel[] | null> => {
     return axios

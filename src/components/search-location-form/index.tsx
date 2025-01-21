@@ -52,7 +52,7 @@ const SearchLocationsForm = () => {
                         <Label className="text-sm/6 font-medium text-white">
                             Тип пошуку
                         </Label>
-                        <div className="relative">
+                        <div className="relative">c
                             <Select
                                 {...register("query", {required: true})}
                                 className={clsx(
