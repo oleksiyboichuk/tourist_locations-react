@@ -5,24 +5,36 @@ import clsx from "clsx";
 import {saveLocations, searchLocations} from "../../services/tourist-location.service.ts";
 import {MdLibraryAddCheck} from "react-icons/md";
 import {MdOutlineLibraryAddCheck} from "react-icons/md";
+import {usePopup} from "../popup";
 
 const TouristLocationTable = ({city, query}: { city: string; query: string }) => {
     const [locations, setLocations] = useState<GoogleLocationsModel[]>([]);
     const [nextPage, setNextPage] = useState<string | null>(null);
     const [selectedLocations, setSelectedLocations] = useState<Set<string>>(new Set());
-    const [allSelected, setAllSelected] = useState<boolean>(true); // Стан для кнопки toggle
+    const [allSelected, setAllSelected] = useState<boolean>(true); // Стан для кнопки toggle\
+
+    const { showPopup, PopupContainer } = usePopup();
 
     useEffect(() => {
         const fetchLocations = async (): Promise<void> => {
             try {
                 const response: GoogleLocationsResponseModel | null = await searchLocations(city, query);
                 if (response && response.results) {
+
                     setLocations(response.results);
                     setNextPage(response.next_page_token || null);
                     setSelectedLocations(new Set(response.results.map((location: GoogleLocationsModel) => location.place_id)));
+
+                    if(response.results.length <= 0) {
+                        showPopup("info", `Локації не знайдено`);
+                    } else {
+                        showPopup("success", `Знайдено ${response.results.length} локацій!`);
+
+                    }
                 }
             } catch (error) {
                 console.error(error);
+                showPopup("error", "Помилка при пошуку локацій");
             }
         };
 
@@ -147,6 +159,8 @@ const TouristLocationTable = ({city, query}: { city: string; query: string }) =>
                     Наступні локації
                 </Button>
             </Field>
+
+            <PopupContainer/>
         </div>
     );
 };
