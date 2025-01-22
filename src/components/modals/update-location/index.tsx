@@ -131,7 +131,7 @@ const UpdateLocationModal = ({
                     {["address_multi_language", "title_multi_language", "description_multi_language"].map(
                         (fieldKey) => (
                             <div key={fieldKey}>
-                                <label>{fieldKey.replace("multi_language", "")}</label>
+                                <label>{fieldKey.replace("_multi_language", "")}</label>
                                 <Tab.Group>
                                     <Tab.List className="flex space-x-1 justify-between">
                                         <div>
