@@ -63,9 +63,13 @@ const TouristLocationTable = ({ city }: { city: string }) => {
         setUpdateLocationModal(true);
     };
 
-    const handleUpdateClose = () => {
+    const handleUpdateClose = (value: boolean) => {
         setUpdateTarget(null);
         setUpdateLocationModal(false);
+        
+        if(value) {
+            showPopup("success", "Дані успішно оновлено!");
+        }
     };
 
     return (

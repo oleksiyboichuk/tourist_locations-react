@@ -6,7 +6,7 @@ import {generateDescription, getLocationById, updateLocationById} from "../../..
 import {GoogleLocationsModifiedModel} from "../../../models/google-location.model.ts";
 
 import {RiAiGenerate2} from "react-icons/ri";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import {AiOutlineLoading3Quarters} from "react-icons/ai";
 import {usePopup} from "../../popup";
 
 
@@ -21,7 +21,7 @@ const UpdateLocationModal = ({
     const {control, handleSubmit, setValue, getValues} = useForm();
     const [loading, setLoading] = useState(false);
 
-    const { showPopup, PopupContainer } = usePopup();
+    const {showPopup, PopupContainer} = usePopup();
 
 
     useEffect(() => {
@@ -61,7 +61,6 @@ const UpdateLocationModal = ({
             return;
         }
 
-        // Збираємо актуальні дані з форми
         const currentValues = getValues();
 
         const formattedData: GoogleLocationsModifiedModel = {
@@ -94,6 +93,7 @@ const UpdateLocationModal = ({
             onClose(true);
         } catch (error) {
             console.error("Error updating location:", error);
+            showPopup("error", "Помилка при оновлені даних!");
         }
     };
 
@@ -104,7 +104,7 @@ const UpdateLocationModal = ({
             const newDescription = await generateDescription(currentDescription);
             const parsedDescription = JSON.parse(newDescription);
 
-            if(newDescription) {
+            if (newDescription) {
                 showPopup("success", "Опис успішно згенеровано!")
             } else {
                 showPopup("error", "Не вдалося оновити опис!")
@@ -206,9 +206,12 @@ const UpdateLocationModal = ({
                                                 </Tab>
                                             ))}
                                         </div>
-                                        {fieldKey === 'description_multi_language' && <span onClick={() => regenerateDescription(location?.description_multi_language)}
-                                            className={`flex justify-center items-center px-2 py-1 rounded mb-1 bg-rose-700 transition-colors hover:bg-rose-600 cursor-pointer ${loading ? 'animate-pulse' : ''}`}>{loading ? <AiOutlineLoading3Quarters className="text-xl animate-spin"/> : <RiAiGenerate2
-                                            className="text-xl"/>}</span>}
+                                        {fieldKey === 'description_multi_language' && <span
+                                            onClick={() => regenerateDescription(location?.description_multi_language)}
+                                            className={`flex justify-center items-center px-2 py-1 rounded mb-1 bg-rose-700 transition-colors hover:bg-rose-600 cursor-pointer ${loading ? 'animate-pulse' : ''}`}>{loading ?
+                                            <AiOutlineLoading3Quarters className="text-xl animate-spin"/> :
+                                            <RiAiGenerate2
+                                                className="text-xl"/>}</span>}
                                     </Tab.List>
 
                                     <Tab.Panels>
@@ -218,7 +221,7 @@ const UpdateLocationModal = ({
                                                     name={`${fieldKey}.${lang}`}
                                                     control={control}
                                                     defaultValue={location[fieldKey][lang]}
-                                                    render={({ field }) => (
+                                                    render={({field}) => (
                                                         <textarea
                                                             {...field}
                                                             rows={fieldKey === "description_multi_language" ? 6 : 3}
