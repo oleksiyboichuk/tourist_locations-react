@@ -9,6 +9,7 @@ import {GoogleLocationsModel, GoogleLocationsModifiedModel} from "../../models/g
 import {usePopup} from "../popup";
 import {Button} from "@headlessui/react";
 import {MdLibraryAddCheck, MdOutlineLibraryAddCheck} from "react-icons/md";
+import {generateExcel, generateExcelUtil} from "../../utils/excel.util.ts";
 
 const TouristLocationTable = ({ city }: { city: string }) => {
     const [locations, setLocations] = useState<GoogleLocationsModifiedModel[] | null>(null);
@@ -101,6 +102,7 @@ const TouristLocationTable = ({ city }: { city: string }) => {
 
     const generateExcel = () => {
         const selectedData: any = locations && locations.filter((location: GoogleLocationsModel) => selectedLocations.has(location.place_id));
+        generateExcelUtil();
         console.log("Selected Locations:", selectedData);
     }
 
