@@ -32,12 +32,12 @@ const Popup: React.FC<PopupProps> = ({type = "info", message, duration = 3000}) 
     return (
         <Transition
             show={show}
-            enter="transform transition duration-300 ease-in-out"
-            enterFrom="translate-y-2 opacity-0"
-            enterTo="translate-y-0 opacity-100"
-            leave="transform transition duration-300 ease-in-out"
-            leaveFrom="translate-y-0 opacity-100"
-            leaveTo="translate-y-2 opacity-0"
+            enter="transform transition duration-500 ease-out"
+            enterFrom="translate-y-[-10px] scale-95 opacity-0"
+            enterTo="translate-y-0 scale-100 opacity-100"
+            leave="transform transition duration-500 ease-in"
+            leaveFrom="translate-y-0 scale-100 opacity-100"
+            leaveTo="translate-y-[-10px] scale-95 opacity-0"
         >
             <div
                 className={`fixed top-4 right-4 z-50 max-w-sm p-4 border rounded shadow-lg ${

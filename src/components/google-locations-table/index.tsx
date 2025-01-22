@@ -73,14 +73,21 @@ const TouristLocationTable = ({city, query}: { city: string; query: string }) =>
             if (response && response.results) {
                 setLocations(response.results);
                 setNextPage(response.next_page_token || null);
-
                 setSelectedLocations(new Set(response.results.map((location: GoogleLocationsModel) => location.place_id)));
                 setAllSelected(true);
+
+                if(response.results.length <= 0) {
+                    showPopup("warning", `Локації не знайдено`);
+                } else {
+                    showPopup("success", `Знайдено ${response.results.length} нових локацій!`);
+
+                }
             }
 
             if(selectedData.length !== 0) {
                 const savedLocations = await saveSelectedLocations(selectedData, city);
                 console.log(savedLocations);
+                showPopup("success", 'Попередні локації успішно збережено!');
 
             }
         } catch (error) {
