@@ -148,15 +148,15 @@ const UpdateLocationModal = ({
                                                 </Tab>
                                             ))}
                                         </div>
-                                        <span
-                                            className="flex justify-center items-center px-2 py-1 rounded mb-1 bg-neutral-700 transition-colors hover:bg-rose-600 cursor-pointer"><RiAiGenerate2
-                                            className="text-xl"/></span>
+                                        {fieldKey === 'description_multi_language' && <span
+                                            className="flex justify-center items-center px-2 py-1 rounded mb-1 bg-neutral-600 transition-colors hover:bg-rose-500 cursor-pointer"><RiAiGenerate2
+                                            className="text-xl"/></span>}
                                     </Tab.List>
 
                                     <Tab.Panels>
                                         {Object.keys(location[fieldKey]).map((lang) => (
                                             <Tab.Panel key={lang}>
-                                                <Controller
+                                            <Controller
                                                     name={`${fieldKey}.${lang}`}
                                                     control={control}
                                                     defaultValue={location[fieldKey][lang]}
