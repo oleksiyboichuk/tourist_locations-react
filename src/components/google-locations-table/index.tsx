@@ -54,8 +54,6 @@ const TouristLocationTable = ({city, query}: { city: string; query: string }) =>
         try {
             const selectedData: GoogleLocationsModel[] = locations.filter((location: GoogleLocationsModel) => selectedLocations.has(location.place_id));
             console.log("Selected Locations:", selectedData);
-            const savedLocations = await saveSelectedLocations(selectedData, city);
-            console.log(savedLocations);
 
             if (!nextPage) return;
 
@@ -66,6 +64,12 @@ const TouristLocationTable = ({city, query}: { city: string; query: string }) =>
 
                 setSelectedLocations(new Set(response.results.map((location: GoogleLocationsModel) => location.place_id)));
                 setAllSelected(true);
+            }
+
+            if(selectedData.length !== 0) {
+                const savedLocations = await saveSelectedLocations(selectedData, city);
+                console.log(savedLocations);
+
             }
         } catch (error) {
             console.error(error);

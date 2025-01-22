@@ -11,16 +11,3 @@
 body {
   background-color: #0d0d0d;
 }
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-.animate-custom-spin {
-  animation: spin 2s linear infinite;
-}
