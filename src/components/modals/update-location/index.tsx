@@ -2,10 +2,11 @@ import {useEffect, useState} from "react";
 import {useForm, Controller} from "react-hook-form";
 import {Tab} from "@headlessui/react";
 import {Button} from "@headlessui/react";
-import {getLocationById, updateLocationById} from "../../../services/tourist-location.service.ts";
+import {generateDescription, getLocationById, updateLocationById} from "../../../services/tourist-location.service.ts";
 import {GoogleLocationsModifiedModel} from "../../../models/google-location.model.ts";
 
 import {RiAiGenerate2} from "react-icons/ri";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const UpdateLocationModal = ({
                                  id,
@@ -16,6 +17,7 @@ const UpdateLocationModal = ({
 }) => {
     const [location, setLocation] = useState<GoogleLocationsModifiedModel | null>(null);
     const {control, handleSubmit, setValue, getValues} = useForm();
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -49,26 +51,70 @@ const UpdateLocationModal = ({
     }, [id, setValue]);
 
     const onSubmit = async (data: any) => {
-        const formattedData = {
-            ...location,
-            ...data,
-            Location: {
-                lat: data["location.lat"] || location?.geometry.location.lat,
-                lng: data["location.lng"] || location?.geometry.location.lng,
-            },
+        if (!location) {
+            console.error("Location data is missing.");
+            return;
         }
 
-        delete formattedData["location.lat"];
-        delete formattedData["location.lng"];
+        // Збираємо актуальні дані з форми
+        const currentValues = getValues();
 
-        console.log("Updated Data:", formattedData);
+        const formattedData: GoogleLocationsModifiedModel = {
+            ...location,
+            geometry: {
+                ...location.geometry,
+                location: {
+                    lat: parseFloat(currentValues["location.lat"] || location.geometry.location.lat.toString()),
+                    lng: parseFloat(currentValues["location.lng"] || location.geometry.location.lng.toString()),
+                },
+            },
+            address_multi_language: {
+                ...location.address_multi_language,
+                ...currentValues.address_multi_language,
+            },
+            title_multi_language: {
+                ...location.title_multi_language,
+                ...currentValues.title_multi_language,
+            },
+            description_multi_language: {
+                ...location.description_multi_language,
+                ...currentValues.description_multi_language,
+            },
+        };
+
+        console.log("Formatted Data for Update:", formattedData);
 
         try {
             await updateLocationById(formattedData._id, formattedData);
+            onClose(true);
         } catch (error) {
-            console.log("Error updating data", error);
+            console.error("Error updating location:", error);
         }
-        onClose(true);
+    };
+
+    const regenerateDescription = async (currentDescription: any) => {
+        setLoading(true);
+
+        try {
+            const newDescription = await generateDescription(currentDescription);
+            const parsedDescription = JSON.parse(newDescription);
+
+            Object.keys(parsedDescription).forEach((lang) => {
+                setValue(`description_multi_language.${lang}`, parsedDescription[lang]);
+            });
+
+            setLocation((prev) => ({
+                ...prev!,
+                description_multi_language: {
+                    ...prev!.description_multi_language,
+                    ...parsedDescription,
+                },
+            }));
+        } catch (error) {
+            console.error("Error generating description:", error);
+        } finally {
+            setLoading(false);
+        }
     };
 
 
@@ -148,22 +194,22 @@ const UpdateLocationModal = ({
                                                 </Tab>
                                             ))}
                                         </div>
-                                        {fieldKey === 'description_multi_language' && <span
-                                            className="flex justify-center items-center px-2 py-1 rounded mb-1 bg-neutral-600 transition-colors hover:bg-rose-500 cursor-pointer"><RiAiGenerate2
-                                            className="text-xl"/></span>}
+                                        {fieldKey === 'description_multi_language' && <span onClick={() => regenerateDescription(location?.description_multi_language)}
+                                            className={`flex justify-center items-center px-2 py-1 rounded mb-1 bg-rose-700 transition-colors hover:bg-rose-600 cursor-pointer ${loading ? 'animate-pulse' : ''}`}>{loading ? <AiOutlineLoading3Quarters className="text-xl animate-spin"/> : <RiAiGenerate2
+                                            className="text-xl"/>}</span>}
                                     </Tab.List>
 
                                     <Tab.Panels>
                                         {Object.keys(location[fieldKey]).map((lang) => (
                                             <Tab.Panel key={lang}>
-                                            <Controller
+                                                <Controller
                                                     name={`${fieldKey}.${lang}`}
                                                     control={control}
                                                     defaultValue={location[fieldKey][lang]}
-                                                    render={({field}) => (
+                                                    render={({ field }) => (
                                                         <textarea
                                                             {...field}
-                                                            rows={fieldKey === 'description_multi_language' ? 6 : 3}
+                                                            rows={fieldKey === "description_multi_language" ? 6 : 3}
                                                             className="w-full p-2 rounded bg-neutral-800"
                                                         ></textarea>
                                                     )}
@@ -171,6 +217,7 @@ const UpdateLocationModal = ({
                                             </Tab.Panel>
                                         ))}
                                     </Tab.Panels>
+
                                 </Tab.Group>
                             </div>
                         )
