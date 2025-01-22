@@ -66,7 +66,7 @@ const TouristLocationTable = ({ city }: { city: string }) => {
     const handleUpdateClose = (value: boolean) => {
         setUpdateTarget(null);
         setUpdateLocationModal(false);
-        
+
         if(value) {
             showPopup("success", "Дані успішно оновлено!");
         }
