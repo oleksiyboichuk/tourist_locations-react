@@ -23,10 +23,10 @@ const Popup: React.FC<PopupProps> = ({type = "info", message, duration = 3000}) 
     }, [duration]);
 
     const typeStyles: Record<string, string> = {
-        success: "bg-green-100 text-green-800 border-green-300",
-        error: "bg-red-100 text-red-800 border-red-300",
-        info: "bg-blue-100 text-blue-800 border-blue-300",
-        warning: "bg-yellow-100 text-yellow-800 border-yellow-300",
+        success: "bg-green-800 text-white border-green-300 shadow-sl shadow-green-300/30",
+        error: "bg-rose-800 text-white border-rose-300 shadow-sl shadow-rose-300/30",
+        info: "bg-cyan-800 text-white border-cyan-300 shadow-sl shadow-cyan-300/30",
+        warning: "bg-yellow-800 text-white border-yellow-300 shadow-sl shadow-yellow-300/30",
     };
 
     return (

@@ -7,6 +7,8 @@ import {GoogleLocationsModifiedModel} from "../../../models/google-location.mode
 
 import {RiAiGenerate2} from "react-icons/ri";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import {usePopup} from "../../popup";
+
 
 const UpdateLocationModal = ({
                                  id,
@@ -18,6 +20,9 @@ const UpdateLocationModal = ({
     const [location, setLocation] = useState<GoogleLocationsModifiedModel | null>(null);
     const {control, handleSubmit, setValue, getValues} = useForm();
     const [loading, setLoading] = useState(false);
+
+    const { showPopup, PopupContainer } = usePopup();
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -99,6 +104,12 @@ const UpdateLocationModal = ({
             const newDescription = await generateDescription(currentDescription);
             const parsedDescription = JSON.parse(newDescription);
 
+            if(newDescription) {
+                showPopup("success", "Опис успішно згенеровано!")
+            } else {
+                showPopup("error", "Не вдалося оновити опис!")
+            }
+
             Object.keys(parsedDescription).forEach((lang) => {
                 setValue(`description_multi_language.${lang}`, parsedDescription[lang]);
             });
@@ -110,6 +121,7 @@ const UpdateLocationModal = ({
                     ...parsedDescription,
                 },
             }));
+
         } catch (error) {
             console.error("Error generating description:", error);
         } finally {
@@ -240,6 +252,7 @@ const UpdateLocationModal = ({
                     </div>
                 </form>
             </div>
+            <PopupContainer/>
         </div>
     );
 };

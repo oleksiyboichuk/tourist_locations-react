@@ -6,6 +6,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import DeleteConfirmModal from "../modals/delete-confirm";
 import UpdateLocationModal from "../modals/update-location";
 import {GoogleLocationsModifiedModel} from "../../models/google-location.model.ts";
+import {usePopup} from "../popup";
 
 const TouristLocationTable = ({ city }: { city: string }) => {
     const [locations, setLocations] = useState<GoogleLocationsModifiedModel[] | null>(null);
@@ -15,6 +16,8 @@ const TouristLocationTable = ({ city }: { city: string }) => {
 
     const [updateLocationModal, setUpdateLocationModal] = useState(false);
     const [updateTarget, setUpdateTarget] = useState<string | null>(null);
+
+    const { showPopup, PopupContainer } = usePopup();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -43,8 +46,11 @@ const TouristLocationTable = ({ city }: { city: string }) => {
                 await deleteLocation(deleteTarget);
                 const updatedLocations: GoogleLocationsModifiedModel[] | null = await getLocationList(city);
                 setLocations(updatedLocations);
+                showPopup("success", "Локацію успішно видалено!");
+
             } catch (error) {
                 console.log('Помилка при видаленні локації: ', error);
+                showPopup("error", "Помилка при видаленні локації!");
             }
             setDeleteModalOpen(false);
         } else {
@@ -121,6 +127,7 @@ const TouristLocationTable = ({ city }: { city: string }) => {
                    />
                )}
            </div>}
+           <PopupContainer/>
        </>
     );
 };
