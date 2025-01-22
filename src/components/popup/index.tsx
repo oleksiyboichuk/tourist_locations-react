@@ -40,7 +40,7 @@ const Popup: React.FC<PopupProps> = ({type = "info", message, duration = 3000}) 
             leaveTo="translate-y-[-10px] scale-95 opacity-0"
         >
             <div
-                className={`fixed top-4 right-4 z-50 max-w-sm p-4 border rounded shadow-lg ${
+                className={`animate-bounce fixed top-4 right-4 z-50 max-w-sm p-4 border rounded shadow-lg ${
                     typeStyles[type] || typeStyles.info
                 }`}
             >

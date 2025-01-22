@@ -206,6 +206,7 @@ const UpdateLocationModal = ({
                                                 </Tab>
                                             ))}
                                         </div>
+
                                         {fieldKey === 'description_multi_language' && <span
                                             onClick={() => regenerateDescription(location?.description_multi_language)}
                                             className={`flex justify-center items-center px-2 py-1 rounded mb-1 bg-rose-700 transition-colors hover:bg-rose-600 cursor-pointer ${loading ? 'animate-pulse' : ''}`}>{loading ?
