@@ -63,63 +63,65 @@ const TouristLocationTable = ({ city }: { city: string }) => {
     };
 
     return (
-        <div className="my-10">
-            <div className="overflow-x-auto">
-                <table className="min-w-full table-auto border-collapse border border-neutral-700">
-                    <thead className="bg-neutral-800/30 text-white">
-                    <tr>
-                        <th className="px-4 py-2 border border-neutral-700">Назва</th>
-                        <th className="px-4 py-2 border border-neutral-700">Адреса</th>
-                        <th className="px-4 py-2 border border-neutral-700">Координати</th>
-                        <th className="px-4 py-2 border border-neutral-700">Редагувати</th>
-                        <th className="px-4 py-2 border border-neutral-700">Видалити</th>
-                    </tr>
-                    </thead>
-                    <tbody className="bg-transparent text-white">
-                    {locations && locations.map((location: GoogleLocationsModifiedModel) => (
-                        <tr key={location._id} className="border border-neutral-700">
-                            <td className="px-4 py-2 border border-neutral-700">{location.title_multi_language['uk']}</td>
-                            <td className="px-4 py-2 border border-neutral-700">{location.address_multi_language['uk']}</td>
-                            <td className="px-4 py-2 border border-neutral-700">
-                                {`Lat: ${location.geometry.location.lat}, Lng: ${location.geometry.location.lng}`}
-                            </td>
-                            <td className="px-4 py-2 border border-neutral-700 text-center">
-                                <div
-                                    className="inline-block p-3 cursor-pointer rounded transition-all hover:text-neutral-700 group"
-                                    onClick={() => updateTouristLocation(location._id)}
-                                >
-                                    <FaRegEdit
-                                        className="text-xl text-neutral-500 transition-colors group-hover:text-neutral-400"/>
-                                </div>
-                            </td>
-                            <td className="px-4 py-2 border border-neutral-700 text-center">
-                                <div
-                                    className="inline-block p-3 cursor-pointer rounded transition-all hover:text-rose-500 group"
-                                    onClick={() => handleDeleteClick(location._id)}
-                                >
-                                    <RiDeleteBin6Line
-                                        className="text-xl text-rose-800 transition-colors group-hover:text-rose-500"
-                                    />
-                                </div>
-                            </td>
-                        </tr>
-                    ))}
-                    </tbody>
-                </table>
-            </div>
-            {updateLocationModal && updateTarget && (
-                <UpdateLocationModal
-                    id={updateTarget}
-                    onClose={handleUpdateClose}
-                />
-            )}
-            {deleteModalOpen && (
-                <DeleteConfirmModal
-                    onClose={handleDeleteConfirm}
-                    message="Ви впевнені, що хочете видалити дане поле?"
-                />
-            )}
-        </div>
+       <>
+           {locations && locations?.length > 0 && <div className="my-10">
+               <div className="overflow-x-auto">
+                   <table className="min-w-full table-auto border-collapse border border-neutral-700">
+                       <thead className="bg-neutral-800/30 text-white">
+                       <tr>
+                           <th className="px-4 py-2 border border-neutral-700">Назва</th>
+                           <th className="px-4 py-2 border border-neutral-700">Адреса</th>
+                           <th className="px-4 py-2 border border-neutral-700">Координати</th>
+                           <th className="px-4 py-2 border border-neutral-700">Редагувати</th>
+                           <th className="px-4 py-2 border border-neutral-700">Видалити</th>
+                       </tr>
+                       </thead>
+                       <tbody className="bg-transparent text-white">
+                       {locations && locations.map((location: GoogleLocationsModifiedModel) => (
+                           <tr key={location._id} className="border border-neutral-700">
+                               <td className="px-4 py-2 border border-neutral-700">{location.title_multi_language['uk']}</td>
+                               <td className="px-4 py-2 border border-neutral-700">{location.address_multi_language['uk']}</td>
+                               <td className="px-4 py-2 border border-neutral-700">
+                                   {`Lat: ${location.geometry.location.lat}, Lng: ${location.geometry.location.lng}`}
+                               </td>
+                               <td className="px-4 py-2 border border-neutral-700 text-center">
+                                   <div
+                                       className="inline-block p-3 cursor-pointer rounded transition-all hover:text-neutral-700 group"
+                                       onClick={() => updateTouristLocation(location._id)}
+                                   >
+                                       <FaRegEdit
+                                           className="text-xl text-neutral-500 transition-colors group-hover:text-neutral-400"/>
+                                   </div>
+                               </td>
+                               <td className="px-4 py-2 border border-neutral-700 text-center">
+                                   <div
+                                       className="inline-block p-3 cursor-pointer rounded transition-all hover:text-rose-500 group"
+                                       onClick={() => handleDeleteClick(location._id)}
+                                   >
+                                       <RiDeleteBin6Line
+                                           className="text-xl text-rose-800 transition-colors group-hover:text-rose-500"
+                                       />
+                                   </div>
+                               </td>
+                           </tr>
+                       ))}
+                       </tbody>
+                   </table>
+               </div>
+               {updateLocationModal && updateTarget && (
+                   <UpdateLocationModal
+                       id={updateTarget}
+                       onClose={handleUpdateClose}
+                   />
+               )}
+               {deleteModalOpen && (
+                   <DeleteConfirmModal
+                       onClose={handleDeleteConfirm}
+                       message="Ви впевнені, що хочете видалити дане поле?"
+                   />
+               )}
+           </div>}
+       </>
     );
 };
 
