@@ -110,63 +110,65 @@ const TouristLocationTable = ({city, query}: { city: string; query: string }) =>
 
     return (
         <div>
-            <table className="w-full border-collapse text-white">
-                <thead>
-                <tr className="bg-neutral-900">
-                    <th className="border border-neutral-600 p-2 text-center">
-                        <Button
-                            type="button"
-                            onClick={toggleSelectAll}
-                            className="bg-neutral-700 text-white px-4 py-2 rounded text-2xl transition-colors hover:bg-neutral-600/80"
-                        >
-                            {allSelected ? <MdLibraryAddCheck/> : <MdOutlineLibraryAddCheck/>}
-                        </Button>
-                    </th>
-                    <th className="border border-neutral-600 p-2">Ім'я</th>
-                    <th className="border border-neutral-600 p-2">Адреса</th>
-                    <th className="border border-neutral-600 p-2">Тип</th>
-                    <th className="border border-neutral-600 p-2">Бізнес статус</th>
-                    <th className="border border-neutral-600 p-2">Рейтинг</th>
-                </tr>
-                </thead>
-                <tbody>
-                {locations.map((location: GoogleLocationsModel) => (
-                    <tr key={location.place_id} className="bg-transparent">
-                        <td className="border border-neutral-600 p-2 text-center">
-                            <label className="relative inline-flex items-center">
-                                <input
-                                    type="checkbox"
-                                    checked={selectedLocations.has(location.place_id)}
-                                    onChange={() => handleCheckboxChange(location.place_id)}
-                                    className="peer appearance-none h-5 w-5 border border-neutral-500 rounded-sm bg-neutral-800 checked:bg-neutral-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                />
-                                <span
-                                    className="absolute inset-0 flex items-center justify-center text-white pointer-events-none peer-checked:opacity-100 opacity-0">
+            {locations && <div>
+                <table className="w-full border-collapse text-white">
+                    <thead>
+                    <tr className="bg-neutral-900">
+                        <th className="border border-neutral-600 p-2 text-center">
+                            <Button
+                                type="button"
+                                onClick={toggleSelectAll}
+                                className="bg-neutral-700 text-white px-4 py-2 rounded text-2xl transition-colors hover:bg-neutral-600/80"
+                            >
+                                {allSelected ? <MdLibraryAddCheck/> : <MdOutlineLibraryAddCheck/>}
+                            </Button>
+                        </th>
+                        <th className="border border-neutral-600 p-2">Ім'я</th>
+                        <th className="border border-neutral-600 p-2">Адреса</th>
+                        <th className="border border-neutral-600 p-2">Тип</th>
+                        <th className="border border-neutral-600 p-2">Бізнес статус</th>
+                        <th className="border border-neutral-600 p-2">Рейтинг</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {locations.map((location: GoogleLocationsModel) => (
+                        <tr key={location.place_id} className="bg-transparent">
+                            <td className="border border-neutral-600 p-2 text-center">
+                                <label className="relative inline-flex items-center">
+                                    <input
+                                        type="checkbox"
+                                        checked={selectedLocations.has(location.place_id)}
+                                        onChange={() => handleCheckboxChange(location.place_id)}
+                                        className="peer appearance-none h-5 w-5 border border-neutral-500 rounded-sm bg-neutral-800 checked:bg-neutral-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    />
+                                    <span
+                                        className="absolute inset-0 flex items-center justify-center text-white pointer-events-none peer-checked:opacity-100 opacity-0">
                                         ✓
                                     </span>
-                            </label>
-                        </td>
-                        <td className="border border-neutral-600 p-2">{location.name}</td>
-                        <td className="border border-neutral-600 p-2">{location.formatted_address}</td>
-                        <td className="border border-neutral-600 p-2">{location.types.join(", ")}</td>
-                        <td className="border border-neutral-600 p-2">{location.business_status}</td>
-                        <td className="border border-neutral-600 p-2 text-center">{location.rating}</td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
-            <Field className="my-4">
-                <Button
-                    type="button"
-                    onClick={handleNextClick}
-                    className={clsx(
-                        "button-base button-focus button-hover button-active button-disabled"
-                    )}
-                >
-                    Наступні локації
-                </Button>
-            </Field>
+                                </label>
+                            </td>
+                            <td className="border border-neutral-600 p-2">{location.name}</td>
+                            <td className="border border-neutral-600 p-2">{location.formatted_address}</td>
+                            <td className="border border-neutral-600 p-2">{location.types.join(", ")}</td>
+                            <td className="border border-neutral-600 p-2">{location.business_status}</td>
+                            <td className="border border-neutral-600 p-2 text-center">{location.rating}</td>
+                        </tr>
+                    ))}
+                    </tbody>
+                </table>
+                <Field className="my-4">
+                    <Button
+                        type="button"
+                        onClick={handleNextClick}
+                        className={clsx(
+                            "button-base button-focus button-hover button-active button-disabled"
+                        )}
+                    >
+                        Наступні локації
+                    </Button>
+                </Field>
 
+            </div>}
             <PopupContainer/>
         </div>
     );
