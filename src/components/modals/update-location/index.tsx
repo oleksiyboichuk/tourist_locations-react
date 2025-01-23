@@ -55,7 +55,7 @@ const UpdateLocationModal = ({
         fetchData();
     }, [id, setValue]);
 
-    const onSubmit = async (data: any) => {
+    const onSubmit = async () => {
         if (!location) {
             console.error("Location data is missing.");
             return;
@@ -97,12 +97,12 @@ const UpdateLocationModal = ({
         }
     };
 
-    const regenerateDescription = async (currentDescription: any) => {
+    const regenerateDescription = async (currentDescription: Record<string, string>) => {
         setLoading(true);
 
         try {
             const newDescription = await generateDescription(currentDescription);
-            const parsedDescription = JSON.parse(newDescription);
+            const parsedDescription = newDescription && JSON.parse(newDescription);
 
             if (newDescription) {
                 showPopup("success", "Опис успішно згенеровано!")
