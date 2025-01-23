@@ -8,7 +8,10 @@ import UpdateLocationModal from "../modals/update-location";
 import {GoogleLocationsModel, GoogleLocationsModifiedModel} from "../../models/google-location.model.ts";
 import {usePopup} from "../popup";
 import {Button} from "@headlessui/react";
+
 import {MdLibraryAddCheck, MdOutlineLibraryAddCheck} from "react-icons/md";
+import { RiFileExcel2Line } from "react-icons/ri";
+
 import {generateExcelUtil} from "../../utils/excel.util.ts";
 
 const TouristLocationTable = ({ city }: { city: string }) => {
@@ -188,9 +191,12 @@ const TouristLocationTable = ({ city }: { city: string }) => {
                    />
                )}
                <Button
-                   className="text-white bg-cyan-700 px-3 py-1 rounded mt-2"
+                   className="text-white bg-green-800 px-3 py-1 rounded mt-4 transition-colors hover:bg-green-700 active:bg-green-900"
                    onClick={() => generateExcel()}
-               >Генерувати excel</Button>
+               ><div className="flex justify-center items-center gap-2">
+                   <p className="text-[17px]">Експортувати</p>
+                  <RiFileExcel2Line className="text-xl"/>
+               </div></Button>
            </div>}
            <PopupContainer/>
        </>

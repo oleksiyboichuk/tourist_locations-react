@@ -31,8 +31,8 @@ export const generateExcelUtil = (data: GoogleLocationsModifiedModel[] | null) =
         const workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
 
-        XLSX.writeFile(workbook, "locations_without_blob.xlsx");
+        XLSX.writeFile(workbook, "tourist_locations.xlsx");
     } catch (error) {
-        console.error("Error generating Excel file without Blob:", error);
+        console.error("Error generating excel file:", error);
     }
 }
