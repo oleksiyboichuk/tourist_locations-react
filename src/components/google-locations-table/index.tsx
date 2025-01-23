@@ -41,6 +41,7 @@ const TouristLocationTable = ({city, query}: { city: string; query: string }) =>
                 }
             } catch (error) {
                 console.error(error);
+                setLoading(false);
                 showPopup("error", "Помилка при пошуку локацій");
             }
         };

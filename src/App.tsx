@@ -16,9 +16,8 @@ function App() {
     return (
         <Wrapper>
             <SearchLocationForm/>
-              {/*<AddLocationForm/>*/}
               <CitySelector onCitySelect={handleCitySelect} />
-            {currentCity ? <TouristLocationTable city={currentCity}/> : <p className="text-white">Please choose city</p>}
+            {currentCity && <TouristLocationTable city={currentCity}/>}
         </Wrapper>
     );
 }

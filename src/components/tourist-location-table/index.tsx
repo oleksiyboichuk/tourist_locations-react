@@ -14,6 +14,7 @@ import { RiFileExcel2Line } from "react-icons/ri";
 import {generateExcelUtil} from "../../utils/excel.util.ts";
 import {getCorrectWord} from "../../utils/word.util.ts";
 import ConfirmModal from "../modals/delete-confirm";
+import Loader from "../loader";
 
 const TouristLocationTable = ({ city }: { city: string }) => {
     const [locations, setLocations] = useState<GoogleLocationsModifiedModel[] | null>(null);
@@ -32,17 +33,23 @@ const TouristLocationTable = ({ city }: { city: string }) => {
 
     const [selectedData, setSelectedData] = useState<GoogleLocationsModifiedModel[] | null>(null);
 
+    const [loading, setLoading] = useState(false);
+
     const { showPopup, PopupContainer } = usePopup();
 
     useEffect(() => {
         const fetchData = async () => {
+            setLoading(true);
+
             try {
                 const locations: GoogleLocationsModifiedModel[] | null = await getLocationList(city);
                 setLocations(locations);
+                setLoading(false);
                 setSelectedLocations(new Set(locations && locations.map((location: GoogleLocationsModel) => location.place_id)));
                 console.log('locations', locations);
             } catch (error) {
                 console.error('Error fetching data:', error);
+                setLoading(false);
             }
         };
 
@@ -140,6 +147,7 @@ const TouristLocationTable = ({ city }: { city: string }) => {
 
     return (
        <>
+           {loading && <Loader/>}
            {locations && locations?.length > 0 && <div className="my-10">
                <div className="overflow-x-auto">
                    <table className="min-w-full table-auto border-collapse border border-neutral-700">
