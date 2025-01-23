@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {Button} from "@headlessui/react";
 
-const DeleteConfirmModal = ({
+const ConfirmModal = ({
                                 message,
                                 onClose,
                             }: {
@@ -60,4 +60,4 @@ const DeleteConfirmModal = ({
     );
 };
 
-export default DeleteConfirmModal;
+export default ConfirmModal;

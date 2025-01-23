@@ -3,7 +3,6 @@ import {deleteLocation, getLocationList} from "../../services/tourist-location.s
 
 import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import DeleteConfirmModal from "../modals/delete-confirm";
 import UpdateLocationModal from "../modals/update-location";
 import {GoogleLocationsModel, GoogleLocationsModifiedModel} from "../../models/google-location.model.ts";
 import {usePopup} from "../popup";
@@ -13,6 +12,8 @@ import {MdLibraryAddCheck, MdOutlineLibraryAddCheck} from "react-icons/md";
 import { RiFileExcel2Line } from "react-icons/ri";
 
 import {generateExcelUtil} from "../../utils/excel.util.ts";
+import {getCorrectWord} from "../../utils/word.util.ts";
+import ConfirmModal from "../modals/delete-confirm";
 
 const TouristLocationTable = ({ city }: { city: string }) => {
     const [locations, setLocations] = useState<GoogleLocationsModifiedModel[] | null>(null);
@@ -25,6 +26,11 @@ const TouristLocationTable = ({ city }: { city: string }) => {
 
     const [allSelected, setAllSelected] = useState<boolean>(true); // Стан для кнопки toggle\
     const [selectedLocations, setSelectedLocations] = useState<Set<string>>(new Set());
+
+    const [excelModal, setExcelModal] = useState(false);
+    const [excelTarget, setExcelTarget] = useState('');
+
+    const [selectedData, setSelectedData] = useState<GoogleLocationsModifiedModel[] | null>(null);
 
     const { showPopup, PopupContainer } = usePopup();
 
@@ -104,10 +110,33 @@ const TouristLocationTable = ({ city }: { city: string }) => {
     };
 
     const generateExcel = () => {
-        const selectedData: GoogleLocationsModifiedModel[] | null = locations && locations.filter((location: GoogleLocationsModel) => selectedLocations.has(location.place_id));
-        generateExcelUtil(selectedData);
-        console.log("Selected Locations:", selectedData);
-    }
+        const filteredData = locations?.filter((location: GoogleLocationsModel) =>
+            selectedLocations.has(location.place_id)
+        );
+
+        if (filteredData && filteredData.length > 0) {
+            const message = getCorrectWord(filteredData.length);
+
+            setSelectedData(filteredData);
+            setExcelModal(true);
+            setExcelTarget(`Експортувати ${filteredData.length} ${message}?`);
+        } else {
+            console.error("No data selected for export.");
+            showPopup("error", "Виберіть дані для експорту!");
+        }
+    };
+
+    const excelModalClose = (confirmed: boolean) => {
+        setExcelModal(false);
+
+        if (confirmed && selectedData) {
+            generateExcelUtil(selectedData);
+            setSelectedData(null);
+        } else if (!confirmed) {
+            console.log("Excel export canceled.");
+        }
+    };
+
 
     return (
        <>
@@ -185,7 +214,7 @@ const TouristLocationTable = ({ city }: { city: string }) => {
                    />
                )}
                {deleteModalOpen && (
-                   <DeleteConfirmModal
+                   <ConfirmModal
                        onClose={handleDeleteConfirm}
                        message="Ви впевнені, що хочете видалити дане поле?"
                    />
@@ -198,6 +227,7 @@ const TouristLocationTable = ({ city }: { city: string }) => {
                   <RiFileExcel2Line className="text-xl"/>
                </div></Button>
            </div>}
+           {excelModal && <ConfirmModal message={excelTarget} onClose={excelModalClose}/>}
            <PopupContainer/>
        </>
     );
