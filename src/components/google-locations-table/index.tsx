@@ -1,27 +1,34 @@
 import {useEffect, useState} from "react";
-import {GoogleLocationsModel, GoogleLocationsResponseModel} from "../../models/google-location.model";
 import {Button, Field} from "@headlessui/react";
-import clsx from "clsx";
 import {saveLocations, searchLocations} from "../../services/tourist-location.service.ts";
 import {MdLibraryAddCheck} from "react-icons/md";
 import {MdOutlineLibraryAddCheck} from "react-icons/md";
+import clsx from "clsx";
+
+import {GoogleLocationsModel, GoogleLocationsResponseModel} from "../../models/google-location.model";
+
 import {usePopup} from "../popup";
+import Loader from "../loader";
 
 const TouristLocationTable = ({city, query}: { city: string; query: string }) => {
     const [locations, setLocations] = useState<GoogleLocationsModel[]>([]);
     const [nextPage, setNextPage] = useState<string | null>(null);
     const [selectedLocations, setSelectedLocations] = useState<Set<string>>(new Set());
-    const [allSelected, setAllSelected] = useState<boolean>(true); // Стан для кнопки toggle\
+    const [allSelected, setAllSelected] = useState<boolean>(true);
+    const [loading, setLoading] = useState(false);
 
     const { showPopup, PopupContainer } = usePopup();
 
     useEffect(() => {
         const fetchLocations = async (): Promise<void> => {
+            setLoading(true);
+
             try {
                 const response: GoogleLocationsResponseModel | null = await searchLocations(city, query);
                 if (response && response.results) {
 
                     setLocations(response.results);
+                    setLoading(false);
                     setNextPage(response.next_page_token || null);
                     setSelectedLocations(new Set(response.results.map((location: GoogleLocationsModel) => location.place_id)));
 
@@ -110,6 +117,9 @@ const TouristLocationTable = ({city, query}: { city: string; query: string }) =>
 
     return (
         <div>
+            {loading &&
+                <Loader/>
+            }
             {locations.length > 0 && <div>
                 <table className="w-full border-collapse text-white">
                     <thead>
