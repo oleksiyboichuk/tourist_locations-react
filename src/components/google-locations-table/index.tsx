@@ -110,7 +110,7 @@ const TouristLocationTable = ({city, query}: { city: string; query: string }) =>
 
     return (
         <div>
-            {locations && <div>
+            {locations.length > 0 && <div>
                 <table className="w-full border-collapse text-white">
                     <thead>
                     <tr className="bg-neutral-900">
