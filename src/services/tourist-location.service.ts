@@ -47,9 +47,9 @@ export const updateLocationById = async(id: string, location: GoogleLocationsMod
         .then((response) => response.data);
 }
 
-export const deleteLocation = async (id: string): Promise<any> => {
+export const deleteLocation = async (id: string): Promise<GoogleLocationsModifiedModel> => {
     return axios
-        .delete<any>(`${baseURL}/location/${id}`, {})
+        .delete<GoogleLocationsModifiedModel>(`${baseURL}/location/${id}`, {})
         .then((response) => response.data);
 };
 
