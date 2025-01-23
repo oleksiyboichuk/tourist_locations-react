@@ -23,9 +23,9 @@ export const saveLocations = async(locations: GoogleLocationsModel[], cityName: 
         .then((response) => response.data);
 }
 
-export const generateDescription = (field: Record<string, string>): Promise<any> => {
+export const generateDescription = async (field: Record<string, string>): Promise<any> => {
     return axios
-        .post<string>(`${baseURL}/location/generation`, field)
+        .post<string>(`${baseURL}/location/generate`, field)
         .then((response) => response.data);
 }
 
