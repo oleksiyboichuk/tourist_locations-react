@@ -1,6 +1,6 @@
 import { Select } from '@headlessui/react';
 import React, { FC, useEffect, useState } from "react";
-import {getCityList, searchLocations} from "../../services/tourist-location.service.ts";
+import {getCityList} from "../../services/tourist-location.service.ts";
 import { CityListModel } from "../../models/location.model.ts";
 
 interface CitySelectorProps {
