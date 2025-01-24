@@ -7,7 +7,10 @@ import {GoogleLocationsModifiedModel} from "../../../models/google-location.mode
 
 import {RiAiGenerate2} from "react-icons/ri";
 import {AiOutlineLoading3Quarters} from "react-icons/ai";
+import { FaRegImage } from "react-icons/fa6";
+
 import {usePopup} from "../../popup";
+import ImageSliderModal from "../image-slider";
 
 
 const UpdateLocationModal = ({
@@ -19,10 +22,12 @@ const UpdateLocationModal = ({
 }) => {
     const [location, setLocation] = useState<GoogleLocationsModifiedModel | null>(null);
     const {control, handleSubmit, setValue, getValues} = useForm();
+    const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+    const [photos, setPhotos] = useState<string[]>([]);
+
     const [loading, setLoading] = useState(false);
 
     const {showPopup, PopupContainer} = usePopup();
-
 
     useEffect(() => {
         const fetchData = async () => {
@@ -38,6 +43,12 @@ const UpdateLocationModal = ({
                     setValue("location.lat", locationData.geometry.location.lat || "");
                     setValue("location.lng", locationData.geometry.location.lng || "");
                     setValue("type", locationData.types || []);
+                    setValue("place_photos", locationData.place_photos || []);
+
+                    if(locationData.place_photos) {
+                        setPhotos(locationData.place_photos || []);
+                        console.log('photos', photos);
+                    }
 
                     ["address_multi_language", "title_multi_language", "description_multi_language"].forEach(
                         (fieldKey) => {
@@ -46,6 +57,9 @@ const UpdateLocationModal = ({
                             });
                         }
                     );
+
+
+
                 }
             } catch (error) {
                 console.error("Error fetching data:", error);
@@ -54,6 +68,19 @@ const UpdateLocationModal = ({
 
         fetchData();
     }, [id, setValue]);
+
+    const handleImages = () => {
+        setIsImageModalOpen(true);
+    };
+
+    const handleImageModalClose = (updatedPhotos: string[] | null) => {
+        setIsImageModalOpen(false);
+        if (updatedPhotos) {
+            setPhotos(updatedPhotos);
+            setValue("place_photos", updatedPhotos);
+            console.log("Updated place_photos in form:", getValues("place_photos"));
+        }
+    };
 
     const onSubmit = async () => {
         if (!location) {
@@ -84,6 +111,8 @@ const UpdateLocationModal = ({
                 ...location.description_multi_language,
                 ...currentValues.description_multi_language,
             },
+
+            place_photos: currentValues.place_photos || [],
         };
 
         console.log("Formatted Data for Update:", formattedData);
@@ -128,7 +157,6 @@ const UpdateLocationModal = ({
             setLoading(false);
         }
     };
-
 
     if (!location) return <div>Loading...</div>;
 
@@ -239,23 +267,40 @@ const UpdateLocationModal = ({
                         )
                     )}
 
-                    <div className="flex justify-end gap-3">
-                        <Button
-                            type="submit"
-                            className="bg-green-800 text-white px-3 py-1 rounded transition-colors hover:bg-green-700/90"
-                        >
-                            Оновити
-                        </Button>
-                        <Button
-                            type="button"
-                            className="bg-neutral-700 text-white px-4 py-1 rounded transition-colors hover:bg-rose-600/90"
-                            onClick={() => onClose(false)}
-                        >
-                            Закрити
-                        </Button>
+                    <div className="flex justify-between gap-3">
+                        <div className="flex justify-center items-center">
+                            <Button
+                                className="bg-orange-400 text-neutral-900 px-3 py-1 rounded transition-colors hover:bg-orange-500/90 hover:text-neutral-800"
+                                onClick={handleImages}
+                            >
+                                <FaRegImage className="text-2xl"/>
+                            </Button>
+                        </div>
+                        <div className="flex justify-center items-center gap-2">
+                            <Button
+                                type="submit"
+                                className="bg-green-800 text-white px-3 py-1 rounded transition-colors hover:bg-green-700/90"
+                            >
+                                Оновити
+                            </Button>
+                            <Button
+                                type="button"
+                                className="bg-neutral-700 text-white px-4 py-1 rounded transition-colors hover:bg-rose-600/90"
+                                onClick={() => onClose(false)}
+                            >
+                                Закрити
+                            </Button>
+                        </div>
                     </div>
                 </form>
             </div>
+
+            {isImageModalOpen && (
+                <ImageSliderModal
+                    images={photos}
+                    onClose={handleImageModalClose}
+                />
+            )}
             <PopupContainer/>
         </div>
     );

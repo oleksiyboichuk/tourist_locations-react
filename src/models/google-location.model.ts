@@ -37,6 +37,7 @@ export interface GoogleLocationsModel {
             width: number[];
         }
     ],
+    place_photos: string[];
     place_id: string;
     plus_code: {
         compound_code: string;
