@@ -3,7 +3,6 @@
 }
 
 .slick-dots li button:before {
-    font-size: 10px;
     color: white;
     opacity: 0.5;
     transition: color 0.3s, opacity 0.3s;
