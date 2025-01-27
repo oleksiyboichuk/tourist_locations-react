@@ -62,9 +62,6 @@ const UpdateLocationModal = ({
                             });
                         }
                     );
-
-
-
                 }
             } catch (error) {
                 console.error("Error fetching data:", error);
@@ -286,8 +283,9 @@ const UpdateLocationModal = ({
                     <div className="flex justify-between gap-3">
                         <div className="flex justify-center items-center">
                             <Button
-                                className="bg-orange-400 text-neutral-900 px-3 py-1 rounded transition-colors hover:bg-orange-500/90 hover:text-neutral-800"
+                                className={`text-neutral-900 px-3 py-1 rounded transition-colors hover:text-neutral-800 ${location.place_photos.length === 0 ? 'bg-gray-400' : 'bg-orange-400 hover:bg-orange-500/90'}`}
                                 onClick={handleImages}
+                                disabled={location.place_photos.length === 0}
                             >
                                 <FaRegImage className="text-2xl"/>
                             </Button>
