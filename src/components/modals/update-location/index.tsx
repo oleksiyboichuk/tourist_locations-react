@@ -2,7 +2,12 @@ import {useEffect, useState} from "react";
 import {useForm, Controller} from "react-hook-form";
 import {Tab} from "@headlessui/react";
 import {Button} from "@headlessui/react";
-import {generateDescription, getLocationById, updateLocationById} from "../../../services/tourist-location.service.ts";
+import {
+    deleteImage,
+    generateDescription,
+    getLocationById,
+    updateLocationById
+} from "../../../services/tourist-location.service.ts";
 import {GoogleLocationsModifiedModel} from "../../../models/google-location.model.ts";
 
 import {RiAiGenerate2} from "react-icons/ri";
@@ -73,12 +78,23 @@ const UpdateLocationModal = ({
         setIsImageModalOpen(true);
     };
 
-    const handleImageModalClose = (updatedPhotos: string[] | null) => {
+    const handleImageModalClose = async (images: {updatedPhotos: string[], deletedPhotos: string[]} | null) => {
+        if(!images) {
+            setIsImageModalOpen(false);
+            return;
+        }
+        const {updatedPhotos, deletedPhotos} = images;
+
         setIsImageModalOpen(false);
         if (updatedPhotos) {
             setPhotos(updatedPhotos);
             setValue("place_photos", updatedPhotos);
             console.log("Updated place_photos in form:", getValues("place_photos"));
+        }
+        if(deletedPhotos) {
+            console.log('deletedPhotos', deletedPhotos);
+            const result = await deleteImage(deletedPhotos);
+            console.log('deleteImage', result);
         }
     };
 

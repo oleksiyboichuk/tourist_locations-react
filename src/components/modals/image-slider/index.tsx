@@ -14,9 +14,10 @@ const ImageSliderModal = ({
                               onClose,
                           }: {
     images: string[];
-    onClose: (updatedPhotos: string[] | null) => void;
+    onClose: (result: { updatedPhotos: string[]; deletedPhotos: string[] } | null) => void;
 }) => {
     const [localImages, setLocalImages] = useState(images);
+    const [deletedImages, setDeletedImages] = useState<string[]>([]);
     const {showPopup, PopupContainer} = usePopup();
 
 
@@ -27,24 +28,26 @@ const ImageSliderModal = ({
         slidesToShow: 1,
         slidesToScroll: 1,
         accessibility: true,
-        beforeChange: (_, next) => {
-            const slides = document.querySelectorAll(".slick-slide");
-            slides.forEach((slide) => {
-                slide.setAttribute("tabindex", "-1");
-            });
-        },
-        afterChange: (current) => {
-            const activeSlide = document.querySelector(
-                `.slick-slide[data-index="${current}"]`
-            );
-            if (activeSlide) {
-                activeSlide.setAttribute("tabindex", "0");
-            }
-        },
+        // beforeChange: (_, next) => {
+        //     const slides = document.querySelectorAll(".slick-slide");
+        //     slides.forEach((slide) => {
+        //         slide.setAttribute("tabindex", "-1");
+        //     });
+        // },
+        // afterChange: (current) => {
+        //     const activeSlide = document.querySelector(
+        //         `.slick-slide[data-index="${current}"]`
+        //     );
+        //     if (activeSlide) {
+        //         activeSlide.setAttribute("tabindex", "0");
+        //     }
+        // },
     };
 
     const handleRemove = (index: number) => {
         const updatedPhotos = localImages.filter((_, i) => i !== index);
+        const image = localImages[index];
+        setDeletedImages((prev) => [...prev, image]);
         setLocalImages(updatedPhotos);
         showPopup("success", "Фото успішно видалено!");
     };
@@ -75,7 +78,13 @@ const ImageSliderModal = ({
                 </Slider>
                 <div className="mt-[50px] flex justify-end gap-4">
                     <Button
-                        onClick={() => onClose(localImages)}
+                        onClick={() =>
+                            onClose({
+                                updatedPhotos: localImages,
+                                deletedPhotos: deletedImages,
+                            })
+                        }
+
                         className="bg-green-800 px-3 py-1 rounded text-white transition-colors hover:bg-green-700/90"
                     >
                         Підтвердити

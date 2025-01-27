@@ -58,3 +58,12 @@ export const getCityList = async (): Promise<CityListModel[] | null> => {
         .get<CityListModel[]>(`${baseURL}/cities`, {})
         .then((response) => response.data);
 };
+
+//IMAGE
+export const deleteImage = async (images: string[]): Promise<any> => {
+    return axios
+        .delete(`${baseURL}/image`, {
+            data: { urls: images },
+        })
+        .then((response) => response.data);
+};
