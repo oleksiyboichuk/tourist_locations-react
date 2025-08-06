@@ -1,5 +1,5 @@
 import * as XLSX from 'xlsx';
-import {GoogleLocationsModifiedModel} from "../models/google-location.model.ts";
+import {GoogleLocationsModifiedModel} from "../models/google-location.model";
 
 export const generateExcelUtil = (data: GoogleLocationsModifiedModel[] | null) => {
     if (!data) return null;

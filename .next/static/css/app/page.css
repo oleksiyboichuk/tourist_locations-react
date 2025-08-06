@@ -1,0 +1,105 @@
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[12].use[3]!./src/components/search-location-form/style.css ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************/
+/* input styles */
+.input-base {
+    margin-top: 0.75rem;
+    display: block;
+    width: 100%;
+    border-radius: 0.5rem;
+    border-style: none;
+    background-color: rgb(255 255 255 / 0.05);
+    padding-top: 0.375rem;
+    padding-bottom: 0.375rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+    --tw-text-opacity: 1;
+    color: rgb(255 255 255 / var(--tw-text-opacity, 1))
+}
+
+.input-focus:focus {
+    outline: 2px solid transparent;
+    outline-offset: 2px
+}
+
+.input-focus[data-focus] {
+    outline-width: 2px;
+    outline-offset: -2px;
+    outline-color: rgb(255 255 255 / 0.25)
+}
+
+/* textarea styles */
+.textarea-base {
+    margin-top: 0.75rem;
+    display: block;
+    width: 100%;
+    resize: none;
+    border-radius: 0.5rem;
+    border-style: none;
+    background-color: rgb(255 255 255 / 0.05);
+    padding-top: 0.375rem;
+    padding-bottom: 0.375rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+    --tw-text-opacity: 1;
+    color: rgb(255 255 255 / var(--tw-text-opacity, 1))
+}
+
+.textarea-focus:focus {
+    outline: 2px solid transparent;
+    outline-offset: 2px
+}
+
+.textarea-focus[data-focus] {
+    outline-width: 2px;
+    outline-offset: -2px;
+    outline-color: rgb(255 255 255 / 0.25)
+}
+
+/* button styles */
+.button-base {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 0.375rem;
+    --tw-bg-opacity: 1;
+    background-color: rgb(39 39 42 / var(--tw-bg-opacity, 1));
+    padding-top: 0.375rem;
+    padding-bottom: 0.375rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+    font-weight: 600;
+    --tw-text-opacity: 1;
+    color: rgb(255 255 255 / var(--tw-text-opacity, 1));
+    --tw-shadow: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+    --tw-shadow-colored: inset 0 2px 4px 0 var(--tw-shadow-color);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+    --tw-shadow-color: rgb(255 255 255 / 0.1);
+    --tw-shadow: var(--tw-shadow-colored)
+}
+
+.button-focus:focus {
+    outline: 2px solid transparent;
+    outline-offset: 2px
+}
+
+.button-focus[data-focus] {
+    outline-width: 1px;
+    outline-color: #fff
+}
+
+.button-hover[data-hover] {
+    --tw-bg-opacity: 1;
+    background-color: rgb(63 63 70 / var(--tw-bg-opacity, 1))
+}
+
+.button-active[data-open] {
+    --tw-bg-opacity: 1;
+    background-color: rgb(55 65 81 / var(--tw-bg-opacity, 1))
+}

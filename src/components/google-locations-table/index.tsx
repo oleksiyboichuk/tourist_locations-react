@@ -1,16 +1,18 @@
+"use client";
+
 import {useEffect, useState} from "react";
 import {Button, Field} from "@headlessui/react";
-import {saveLocations, searchLocations} from "../../services/tourist-location.service.ts";
+import {saveLocations, searchLocations} from "@/services/tourist-location.service";
 import {MdLibraryAddCheck} from "react-icons/md";
 import {MdOutlineLibraryAddCheck} from "react-icons/md";
 import clsx from "clsx";
 
-import {GoogleLocationsModel, GoogleLocationsResponseModel} from "../../models/google-location.model";
+import {GoogleLocationsModel, GoogleLocationsResponseModel} from "@/models/google-location.model";
 
-import {usePopup} from "../popup";
-import Loader from "../loader";
+import {usePopup} from "@/components/popup";
+import Loader from "@/components/loader";
 
-const TouristLocationTable = ({city, query}: { city: string; query: string }) => {
+const GoogleLocationsTable = ({city, query}: { city: string; query: string }) => {
     const [locations, setLocations] = useState<GoogleLocationsModel[]>([]);
     const [nextPage, setNextPage] = useState<string | null>(null);
     const [selectedLocations, setSelectedLocations] = useState<Set<string>>(new Set());
@@ -185,4 +187,4 @@ const TouristLocationTable = ({city, query}: { city: string; query: string }) =>
     );
 };
 
-export default TouristLocationTable;
+export default GoogleLocationsTable;

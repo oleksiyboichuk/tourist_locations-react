@@ -1,28 +1,16 @@
+"use client";
+
 import { Select } from '@headlessui/react';
 import React, { FC, useEffect, useState } from "react";
-import {getCityList} from "../../services/tourist-location.service.ts";
-import { CityListModel } from "../../models/location.model.ts";
+import { CityListModel } from "@/models/location.model";
 
 interface CitySelectorProps {
+    cities: CityListModel[];
     onCitySelect: (selectedCity: string) => void;
 }
 
-const CitySelector: FC<CitySelectorProps> = ({ onCitySelect }) => {
-    const [cities, setCities] = useState<CityListModel[] | null>([]);
+const CitySelector: FC<CitySelectorProps> = ({ cities, onCitySelect }) => {
     const [selectedCity, setSelectedCity] = useState<string>("");
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const cities = await getCityList();
-                setCities(cities);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
-
-        fetchData();
-    }, []);
 
     const handleCityChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
         const city = event.target.value;

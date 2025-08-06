@@ -59,6 +59,6 @@ export interface GoogleLocationsModifiedModel extends GoogleLocationsModel {
     description_multi_language: MultiLanguageMap;
 }
 
-interface MultiLanguageMap {
+export interface MultiLanguageMap {
     [key: string]: string;
 }

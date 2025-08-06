@@ -1,20 +1,19 @@
-import { useEffect, useState } from "react";
-import {deleteLocation, getLocationList} from "../../services/tourist-location.service.ts";
+"use client";
 
+import { useEffect, useState } from "react";
+import { deleteLocation, getLocationList } from "@/services/tourist-location.service";
 import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import UpdateLocationModal from "../modals/update-location";
-import {GoogleLocationsModel, GoogleLocationsModifiedModel} from "../../models/google-location.model.ts";
-import {usePopup} from "../popup";
-import {Button} from "@headlessui/react";
-
-import {MdLibraryAddCheck, MdOutlineLibraryAddCheck} from "react-icons/md";
+import UpdateLocationModal from "@/components/modals/update-location";
+import { GoogleLocationsModel, GoogleLocationsModifiedModel } from "@/models/google-location.model";
+import { usePopup } from "@/components/popup";
+import { Button } from "@headlessui/react";
+import { MdLibraryAddCheck, MdOutlineLibraryAddCheck } from "react-icons/md";
 import { RiFileExcel2Line } from "react-icons/ri";
-
-import {generateExcelUtil} from "../../utils/excel.util.ts";
-import {getCorrectWord} from "../../utils/word.util.ts";
-import ConfirmModal from "../modals/delete-confirm";
-import Loader from "../loader";
+import { generateExcelUtil } from "@/utils/excel.util";
+import { getCorrectWord } from "@/utils/word.util";
+import ConfirmModal from "@/components/modals/delete-confirm";
+import Loader from "@/components/loader";
 
 const TouristLocationTable = ({ city }: { city: string }) => {
     const [locations, setLocations] = useState<GoogleLocationsModifiedModel[] | null>(null);

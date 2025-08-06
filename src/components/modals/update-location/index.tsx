@@ -1,13 +1,15 @@
+"use client";
+
 import {useEffect, useState} from "react";
 import {useForm, Controller} from "react-hook-form";
 import {Tab} from "@headlessui/react";
 import {Button} from "@headlessui/react";
-import {generateDescription, getLocationById, updateLocationById} from "../../../services/tourist-location.service.ts";
-import {GoogleLocationsModifiedModel} from "../../../models/google-location.model.ts";
+import {generateDescription, getLocationById, updateLocationById} from "@/services/tourist-location.service";
+import {GoogleLocationsModifiedModel, MultiLanguageMap} from "@/models/google-location.model";
 
 import {RiAiGenerate2} from "react-icons/ri";
 import {AiOutlineLoading3Quarters} from "react-icons/ai";
-import {usePopup} from "../../popup";
+import {usePopup} from "@/components/popup";
 
 
 const UpdateLocationModal = ({
@@ -39,11 +41,15 @@ const UpdateLocationModal = ({
                     setValue("location.lng", locationData.geometry.location.lng || "");
                     setValue("type", locationData.types || []);
 
-                    ["address_multi_language", "title_multi_language", "description_multi_language"].forEach(
+                    const multiLanguageFields: (keyof GoogleLocationsModifiedModel)[] = ["address_multi_language", "title_multi_language", "description_multi_language"];
+                    multiLanguageFields.forEach(
                         (fieldKey) => {
-                            Object.keys(locationData[fieldKey] || {}).forEach((lang) => {
-                                setValue(`${fieldKey}.${lang}`, locationData[fieldKey][lang]);
-                            });
+                            const fieldData = locationData[fieldKey] as MultiLanguageMap | undefined;
+                            if (fieldData) {
+                                Object.keys(fieldData).forEach((lang) => {
+                                    setValue(`${fieldKey}.${lang}`, fieldData[lang]);
+                                });
+                            }
                         }
                     );
                 }
@@ -130,6 +136,8 @@ const UpdateLocationModal = ({
     };
 
 
+        const multiLanguageFields: (keyof GoogleLocationsModifiedModel)[] = ["address_multi_language", "title_multi_language", "description_multi_language"];
+
     if (!location) return <div>Loading...</div>;
 
     return (
@@ -186,14 +194,14 @@ const UpdateLocationModal = ({
                         />
                     </div>
 
-                    {["address_multi_language", "title_multi_language", "description_multi_language"].map(
+                                        {multiLanguageFields.map(
                         (fieldKey) => (
                             <div key={fieldKey}>
                                 <label>{fieldKey.replace("_multi_language", "")}</label>
                                 <Tab.Group>
                                     <Tab.List className="flex space-x-1 justify-between">
                                         <div>
-                                            {Object.keys(location[fieldKey]).map((lang) => (
+                                            {location[fieldKey] && Object.keys(location[fieldKey] as MultiLanguageMap).map((lang) => (
                                                 <Tab
                                                     key={lang}
                                                     className={({selected}) =>
@@ -216,12 +224,12 @@ const UpdateLocationModal = ({
                                     </Tab.List>
 
                                     <Tab.Panels>
-                                        {Object.keys(location[fieldKey]).map((lang) => (
+                                        {location[fieldKey] && Object.keys(location[fieldKey] as MultiLanguageMap).map((lang) => (
                                             <Tab.Panel key={lang}>
                                                 <Controller
                                                     name={`${fieldKey}.${lang}`}
                                                     control={control}
-                                                    defaultValue={location[fieldKey][lang]}
+                                                    defaultValue={(location[fieldKey] as MultiLanguageMap)[lang]}
                                                     render={({field}) => (
                                                         <textarea
                                                             {...field}

@@ -1,3 +1,5 @@
+"use client";
+
 import {useState} from "react";
 import {useForm} from "react-hook-form";
 import {
@@ -12,7 +14,7 @@ import './style.css';
 
 import {IoChevronDownOutline, IoSearch} from "react-icons/io5";
 
-import GoogleLocationsTable from "../google-locations-table";
+import GoogleLocationsTable from "@/components/google-locations-table";
 
 const SearchLocationsForm = () => {
     const [selectedCity, setSelectedCity] = useState<string>('');

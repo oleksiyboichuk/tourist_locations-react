@@ -1,3 +1,5 @@
+"use client";
+
 import {useState} from "react";
 import {useForm} from "react-hook-form";
 import "./style.css";
@@ -14,10 +16,10 @@ import {RiAiGenerate} from "react-icons/ri";
 import {AiOutlineLoading3Quarters} from "react-icons/ai";
 import {IoChevronDownOutline} from "react-icons/io5";
 
-import {LocationModel} from "../../models/location.model";
-import {promptConfig} from "../../config/prompt.config.ts";
+import {LocationModel} from "@/models/location.model";
+import {promptConfig} from "@/config/prompt.config";
 
-import {generateTouristLocations, searchLocations} from "../../services/tourist-location.service.ts";
+import {searchLocations} from "@/services/tourist-location.service";
 
 const AddLocationForm = () => {
     const [loading, setLoading] = useState(false);
